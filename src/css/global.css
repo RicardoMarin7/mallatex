@@ -33,13 +33,12 @@ h1{
 }
 
 .Orden__empresa{
-    padding-left: 1em;
+    padding: 0 1.2em;
 }
 
 .Orden__empresa h4{
     margin: .2em 0;
 }
-
 
 .Orden__empresa-datos{
     margin: .4em 0;
@@ -55,6 +54,19 @@ h1{
     font-weight: 700;
 }
 
-.no-margin{
-    margin:0;
+.d-inline{
+    display: inline;
+}
+
+.margin-auto{
+    display: flex;
+    margin:3em auto;
+}
+
+table{
+    background-color: rgba(56, 56, 56, 0.2);
+}
+
+th,tr,td{
+    text-align: center;
 }
