@@ -31,9 +31,8 @@
 .container {
   position: relative;
   width: 100%;
-  max-width: 960px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
   box-sizing: border-box; }
 .column,
 .columns {
@@ -42,14 +41,14 @@
   box-sizing: border-box; }
 
 /* For devices larger than 400px */
-@media (min-width: 400px) {
+@media (min-width: 360  px) {
   .container {
     width: 85%;
     padding: 0; }
 }
 
 /* For devices larger than 550px */
-@media (min-width: 550px) {
+@media (min-width: 550px){
   .container {
     width: 80%; }
   .column,
@@ -157,11 +156,6 @@ p {
 
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-a {
-  color: #1EAEDB; }
-a:hover {
-  color: #0FA0CE; }
-
 
 /* Buttons
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -238,7 +232,7 @@ select {
   height: 38px;
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
   background-color: #fff;
-  border: 1px solid #D1D1D1;
+  border: 1px solid #b1b0b0;
   border-radius: 4px;
   box-shadow: none;
   box-sizing: border-box; }
@@ -295,7 +289,6 @@ ol {
 ol, ul {
   padding-left: 0;
   margin-top: 0; }
-ul ul,
 ul ol,
 ol ol,
 ol ul {
@@ -413,7 +406,10 @@ there.
 @media (min-width: 750px) {}
 
 /* Larger than desktop */
-@media (min-width: 1000px) {}
+@media (min-width: 1000px) {
+  .container {
+    width: 85%; }
+}
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}

@@ -1,72 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-
-
-html{
-    min-height: 100%;
-}
-
-body{
-    background-image: linear-gradient(190deg, rgba(193, 0, 23, 1) , rgba(238, 39, 56, .8) , rgba(247, 100, 110, 0.6));
-    min-height: 100%;
-    font-family: 'Roboto', sans-serif;
-}
-
-h1{font-size: 3.7em;} h2{font-size: 3em;} h3{font-size: 2.5em;} h4{font-size: 1.8em;}
-
-h1{
-    text-align: center;
-    color: white;
-    margin-top: 30px;
-}
-
-.container{
-    background-color: white;
-    border-radius: .5em;
-    overflow: hidden;
-}
-
-.Orden__titulo{
-    text-align: center;
-    background-color: rgba(193, 0, 23, .8);
-    color: white;
-    margin: 0;
-}
-
-.Orden__empresa{
-    padding-left: 1em;
-}
-
-.Orden__empresa h4{
-    margin: .2em 0;
-}
-
-
-.Orden__empresa-datos{
-    margin: .4em 0;
-    font-size: 1.1em;
-}
-
-.Orden__fecha-folio{
-    text-align: right;
-    padding: .5em;
-}
-
-.Orden__empresa-datos span{
-    font-weight: 700;
-}
-
-.no-margin{
-    margin:0;
-}
-
 :root {
     --blanco: #ffffff;
     --gris1: #edf2f6;
-    --gris2: #2f3848;
+    --gris2: #1f1c1d;
     --gris3: #1a202d;
-    --negro: #000000;
+    --negro: #0000;
     --headingFont:'Raleway', sans-serif;
     --textFont:  'Roboto', sans-serif;
+    --options: #c60923;
+    --options-hover: #aa0a1f;
   }
   *, *:before, *:after {
     box-sizing: inherit;
@@ -162,7 +103,7 @@ h1{
   
     aside {
         background-color: var(--blanco);
-        flex: 0 0 300px;
+        flex: 0 0 200px;
     }
     .seccion-principal {
         flex: 1;
@@ -172,9 +113,7 @@ h1{
   
   
   /* BARRA LATERAL */
-  aside  {
-    padding: 3rem;
-  }
+  
   
   .formulario-nuevo-proyecto {
     margin-top: 6rem;
@@ -203,7 +142,7 @@ h1{
     display: flex;
     justify-content: space-between;
     background-color: var(--gris2);
-    padding: 4rem;
+    padding: 3.08rem;
   }
   .nombre-usuario {
     color: var(--blanco);
@@ -393,3 +332,88 @@ h1{
     opacity: .7;
   }
   
+.d-inline{
+    display: inline;
+}
+
+.margin-auto{
+    display: flex;
+    margin:3em auto;
+}
+
+table{
+    background-color: rgba(56, 56, 56, 0.2);
+}
+
+th,tr,td{
+    text-align: center;
+}
+
+
+/* Propios */
+
+.Logo__sidebar{
+    max-width: 100%;
+    padding: 3rem;
+}
+
+.Option{
+    display: block;
+    width: 100%;
+    background-color: var(--options);
+    color: var(--gris1);
+    padding: 1rem;
+    text-align: center;
+    font-weight: 400;
+    
+}
+
+.Option:hover{  
+    transition-duration: .15s;
+    transition-timing-function: ease-in-out;   
+    background-color: var(--options-hover) ; 
+}
+
+.Orden__titulo{
+  text-align: center;
+  background-color: rgba(193, 0, 23, .8);
+  color: white;
+  margin: 0;
+}
+
+.Orden__empresa{
+  padding: 0 1.2em;
+}
+
+.Orden__empresa h4{
+  margin: .2em 0;
+}
+
+.Orden__empresa-datos{
+  margin: .4em 0;
+  font-size: 1.1em;
+}
+
+.Orden__fecha-folio{
+  text-align: right;
+  padding: .5em;
+}
+
+.Orden__empresa-datos span{
+  font-weight: 700;
+}
+
+.d-inline{
+  display: inline;
+}
+
+.margin-auto{
+  display: flex;
+  margin:3em auto;
+}
+
+.container{
+  background-color: white;
+  border-radius: .5em;
+  overflow: hidden;
+}

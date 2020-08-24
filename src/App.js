@@ -1,16 +1,21 @@
 import React from 'react';
-import OrdenDecompra from './components/OrdenDeCompra';
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+
+import Login from './components/auth/Login';
+import Orders from './components/orders/Orders'
+import NewOrder from './components/orders/NewOrder'
+import MyOrders from './components/orders/MyOrders'
 
 function App() {
   return (
-    <React.Fragment>
-      <h1>Mallatex</h1>
-      <div className="container">
-        <OrdenDecompra />
-      </div>
-    </React.Fragment>
-
-
+    <BrowserRouter> 
+        <Switch>
+          <Route exact path="/" component={Login}/>
+          <Route exact path="/orders" component={Orders}/>
+          <Route exact path="/orders/new" component={NewOrder}/>
+          <Route exact path="/orders/{id}" component={MyOrders}/>
+        </Switch>
+    </BrowserRouter>
   );
 }
 
