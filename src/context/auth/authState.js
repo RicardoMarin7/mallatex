@@ -4,6 +4,7 @@ import AuthReducer from '../auth/authReducer'
 import AxiosClient from '../../config/Axios'
 import authToken from '../../config/authToken'
 
+
 import { 
     SUCCESSFUL_LOGIN,
     FAILURE_LOGIN,
@@ -72,6 +73,27 @@ const AuthState = props =>{
             }
         }
     }
+
+    const Login = async (data) => {
+        try {
+            const response = await AxiosClient.post('/api/auth/login',data)
+            dispatch({
+                type:SUCCESSFUL_LOGIN,
+                payload:response.data
+            })
+
+            userAuthenticated()
+        } catch (error) {
+            const alert = {
+                msg:error.response.data.msg,
+                category:'alerta-error'
+            }
+            dispatch({
+                type:FAILURE_LOGIN,
+                payload:alert
+            })
+        }
+    }
     
     return(
         <AuthContext.Provider
@@ -80,7 +102,8 @@ const AuthState = props =>{
                 auth:state.auth,
                 user:state.user,
                 message:state.message,
-                registerUser
+                registerUser,
+                Login
             }}
         >
             {props.children}

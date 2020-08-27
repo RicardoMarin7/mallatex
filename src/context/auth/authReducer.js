@@ -28,6 +28,17 @@ export default (state,action) =>{
                 message:action.payload
             }
 
+        case SUCCESSFUL_LOGIN:
+            localStorage.setItem('mallatex-token', action.payload.token)
+            return{
+                ...state,
+                auth:true,
+                message:{
+                    msg: action.payload.msg,
+                    category:'alerta-ok'
+                }
+            }
+
         case FAILURE_LOGIN:
             localStorage.removeItem('mallatex-token')
             return{
