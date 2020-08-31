@@ -9,7 +9,7 @@ const SearchBar = ({type}) =>{
     const { alert, showAlert } = alertsContext
 
     const ordersContext = useContext(OrdersContext)
-    const { providers, articles, selectArticles, selectedArticles, message} = ordersContext
+    const { providers, articles, selectArticles, selectedArticles, message, selectProvider} = ordersContext
 
     const [filteredProviders, setFilteredProviders] = useState([])
     const [filteredArticles, setFilteredArticles] = useState([])
@@ -45,6 +45,13 @@ const SearchBar = ({type}) =>{
                 return (article.description.toLowerCase().includes(e.target.value.toLowerCase()) || article.code.toLowerCase().includes(e.target.value.toLowerCase())  )
             }))
         }
+    }
+
+    const handleProviderClick = e =>{
+        const [selected] = providers.filter( provider => provider._id === e.target.getAttribute('data-key'))
+        selectProvider(selected)
+        setFilteredProviders('')
+
     }
 
     const handleArticleClick = e =>{
@@ -84,7 +91,7 @@ const SearchBar = ({type}) =>{
                 {filteredProviders.length > 0
                 ?(
                     filteredProviders.map( filter =>{
-                        return <button type="button" className="Search__item" key={filter._id}>{filter.name}</button>
+                        return <button type="button" className="Search__item" onClick={handleProviderClick} key={filter._id} data-key={filter._id}>{filter.name}</button>
                     })
                 ) 
                 :(

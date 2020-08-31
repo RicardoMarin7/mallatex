@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 
 import Layout from '../layout/Layout'
 import SearchBar from '../utility/SearchBar'
+import ArticleList from './ArticleList'
 
 import AuthContext from '../../context/auth/authContext'
 import OrdersContext from '../../context/orders/ordersContext'
@@ -21,7 +22,7 @@ const NewOrder = () =>{
     const { user } = authContext
 
     const ordersContext = useContext(OrdersContext)
-    const { getArticles, getProviders } = ordersContext
+    const { getArticles, getProviders,selectedProvider } = ordersContext
 
     useEffect( () =>{
         getProviders()
@@ -95,12 +96,59 @@ const NewOrder = () =>{
                 <div className="row">
                     <div className="one-half column">
                         <SearchBar type="provider" key="1" />
+                        
                     </div>
 
                     <div className="one-half column">
                         <SearchBar type="articles" key="2" />
+
                     </div>
                 </div> {/* Termina proveedor */}
+
+                <div className="row data">
+                    <div className="one-half column">
+                    {selectedProvider 
+                        ?(
+                            <div className="row">
+                                <label htmlFor="provider">Empresa</label>
+                                <input type="text" name="provider" className="u-full-width" value={selectedProvider.name} readOnly />
+                                
+                                <label htmlFor="address">Direccion</label>
+                                <input type="text" name="address" className="u-full-width" value={selectedProvider.address} readOnly />
+                                
+                                <div className="row">
+                                    <div className="one-half column">
+                                        <label htmlFor="email">Email</label>
+                                        <input type="text" name="email" className="u-full-width" value={selectedProvider.email} readOnly />                                    
+                                    </div>
+
+                                    <div className="one-half column">
+                                        <label htmlFor="phone">Telefono</label>
+                                        <input type="text" name="phone" className="u-full-width" value={selectedProvider.phone} readOnly />
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                        :(<h3>Selecciona un proveedor</h3>)}
+                    </div>
+
+                    <div className="one-half column">
+
+                        <label htmlFor="employee">Empleado</label>
+                        <input type="text" name="employee" className="u-full-width" value={user.name} readOnly />
+                        
+                        <label htmlFor="empresa">Empresa</label>
+                        <input type="text" name="employee" className="u-full-width" value={'Tejidos Tecnicos Mallatex S.A. De C.V.'} readOnly />
+                        
+                        <label htmlFor="employee_address">Direccion</label>
+                        <input type="text" name="employee_address" className="u-full-width" value={'Av. Iturbide #5210, Zapopan, Jal.'} readOnly />
+
+                        <label htmlFor="email">Email</label>
+                        <input type="text" name="email" className="u-full-width" value={user.email} readOnly />   
+
+                    </div>
+
+                </div>
 
                 {/* Empieza datos de envio */}
                 <div className="row">
@@ -117,6 +165,11 @@ const NewOrder = () =>{
                         <input type="text" name="empleado_envio" className="u-full-width" onChange={handleChange}/>
                     </div>
                 </div>{/* Termina datos de envio */}
+
+                <div className="row">
+                    <h2>Articulos Seleccionados</h2>
+                    <ArticleList />
+                </div>
 
                 
 

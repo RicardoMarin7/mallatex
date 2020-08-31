@@ -12,7 +12,7 @@ const Layout = props =>{
 
     useEffect( ()=>{
         userAuthenticated()
-    }, [])
+    },[])
 
     return(
         <div className="contenedor-app">

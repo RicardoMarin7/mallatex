@@ -13,7 +13,9 @@ import {
     DELETE_ORDER,
     GET_PROVIDERS,
     GET_ARTICLES,
-    SELECT_ARTICLE
+    SELECT_ARTICLE,
+    DELETE_SELECTED_ARTICLE,
+    SELECT_PROVIDER
 } from '../../types'
 
 
@@ -60,6 +62,14 @@ const OrdersState = props => {
         })
     }
 
+    //Elimina uno de los articulos seleccionados
+    const deleteSelectedArticle = articleID =>{
+        dispatch({
+            type:DELETE_SELECTED_ARTICLE,
+            payload:articleID
+        })
+    }
+
     //Obtiene todos los proveedores
     const getProviders = async () =>{
         try {
@@ -73,6 +83,14 @@ const OrdersState = props => {
         } catch (error) {
             console.log(error)
         }
+    }
+
+     //Selecccionar un proveedor
+    const selectProvider = provider =>{
+        dispatch({
+            type:SELECT_PROVIDER,
+            payload:provider,
+        })
     }
 
     //Obtiene todos los proyectos
@@ -114,9 +132,12 @@ const OrdersState = props => {
             providers:state.providers,
             articles:state.articles,
             selectedArticles:state.selectedArticles,
+            selectedProvider:state.selectedProvider,
             selectArticles,
             getArticles,
-            getProviders
+            getProviders,
+            deleteSelectedArticle,
+            selectProvider
 
         }}>
             {props.children}

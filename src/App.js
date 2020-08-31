@@ -9,7 +9,6 @@ import Login from './components/auth/Login'
 import NewAccount from './components/auth/NewAccount'
 import Orders from './components/orders/Orders'
 import NewOrder from './components/orders/NewOrder'
-import MyOrders from './components/orders/MyOrders'
 
 //State
 import AlertState from './context/alerts/alertsState'
@@ -38,14 +37,13 @@ function App() {
                   <Route exact path="/" component={Login}/>
                   <PrivateRoute exact path="/orders" component={Orders}/>
                   <PrivateRoute exact path="/orders/new" component={NewOrder}/>
-                  <PrivateRoute exact path="/orders/{id}" component={MyOrders}/>
                   <PrivateRoute exact path="/new-account" component={NewAccount}/>
                 </Switch>
             </BrowserRouter>
         </AuthState>
       </AlertState>
     </OrdersState>
-  );
+  )
 }
 
 export default App;

@@ -10,7 +10,7 @@ const Bar = () =>{
 
     useEffect(() => {
         userAuthenticated()
-    }, [])
+    },[])
 
     return(
         

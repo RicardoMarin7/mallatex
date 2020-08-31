@@ -7,7 +7,9 @@ import {
     DELETE_ORDER,
     GET_PROVIDERS,
     GET_ARTICLES,
-    SELECT_ARTICLE
+    SELECT_ARTICLE,
+    DELETE_SELECTED_ARTICLE,
+    SELECT_PROVIDER
 } from '../../types'
 
 export default (state,action) =>{
@@ -57,6 +59,18 @@ export default (state,action) =>{
             return{
                 ...state,
                 selectedArticles:[...state.selectedArticles, action.payload],
+            }
+
+        case DELETE_SELECTED_ARTICLE:
+            return{
+                ...state,
+                selectedArticles:state.selectedArticles.filter( article => article._id !== action.payload )
+            }
+        
+        case SELECT_PROVIDER:
+            return{
+                ...state,
+                selectedProvider:action.payload
             }
 
         default:
