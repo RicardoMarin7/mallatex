@@ -10,7 +10,7 @@ const Login = (props) => {
     const { alert, showAlert } = alertsContext
 
     const authContext = useContext(AuthContext)
-    const { message , auth, Login} = authContext
+    const { message , auth, Login, userAuthenticated } = authContext
 
     const [login,setLogin] = useState({
         email:'',
@@ -18,6 +18,9 @@ const Login = (props) => {
     })
 
     useEffect( ()=>{
+
+        userAuthenticated()
+
         if(message){
             showAlert(message.msg,message.category)
         }

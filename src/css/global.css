@@ -26,6 +26,7 @@ select {
     --textFont:  'Roboto', sans-serif;
     --options: #c60923;
     --options-hover: #aa0a1f;
+    --border-radius: 10px;
   }
   *, *:before, *:after {
     box-sizing: inherit;
@@ -160,7 +161,7 @@ select {
     display: flex;
     justify-content: space-between;
     background-color: var(--gris2);
-    padding: 3.08rem;
+    padding: 1.45rem;
   }
   .nombre-usuario {
     color: var(--blanco);
@@ -403,7 +404,7 @@ th,tr,td{
 
 .Logo__sidebar{
     max-width: 100%;
-    padding: 3rem;
+    padding: 2rem;
 }
 
 .Option{
@@ -469,4 +470,156 @@ th,tr,td{
 
 .row {
   padding: 1rem;
+}
+
+.cerrar-sesion{
+  color: white;
+  border: none;
+  box-shadow: none;
+}
+
+
+@keyframes ld-dim
+{
+  0% {
+    animation-timing-function: cubic-bezier(0.9647,0.2413,-0.0705,0.7911);
+    opacity: 0;
+  }
+  51% {
+    animation-timing-function: cubic-bezier(0.9226,0.2631,-0.0308,0.7628);
+    opacity: 0.9995;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.ld.ld-dim {
+  animation: ld-dim 1s infinite linear; ; 
+}
+
+.loader{
+  max-width: 100%;
+  max-height: auto;
+  text-align: center;
+}
+
+.Card {
+  padding: 1px;
+  border-radius: var(--border-radius);
+  background: linear-gradient(-67deg, var(--options), var(--options-hover));
+  overflow: auto;
+  box-shadow: -2px -2px 6px var(--options), 2px 2px 12px var(--options-hover);
+  width: 100%;
+  max-height: 200px;
+}
+
+.Card::-webkit-scrollbar-track {
+  padding: 1px 0;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.Card::-webkit-scrollbar {
+  width: 8px;
+}
+
+.Card::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.CardInner {
+  padding: 16px 16px;
+  background-color: var(--options);
+  border-radius: var(--border-radius);
+}
+
+.CardContainer {
+  display: flex;
+}
+
+.Icon {
+  min-width: 46px;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  margin-right: 12px;
+  box-shadow: -2px -2px 6px var(--options), 2px 2px 12px var(--options-hover);
+}
+
+.Icon svg {
+  transform: translate(-1px, -1px);
+}
+
+.Search__Title {
+  display: block;
+  color: white;
+  margin-bottom: 12px;
+  background: linear-gradient(45deg, white, white);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.Search__Input {
+  background-color: var(--options-hover);
+  padding: 16px 32px;
+  border: none;
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600;
+  color: white;
+  -webkit-appearance: none;
+  transition: all 240ms ease-out;
+  width: 100%;
+}
+
+.Search__Input::placeholder {
+  color: rgba(255,255,255,.8);
+}
+.Search__Input:focus {
+  outline: none;
+  color: white;
+  background-color: var(--options-hover);
+}
+
+.InputContainer {
+  --top-shadow: inset 1px 1px 3px var(--options-hover), inset 2px 2px 6px var(--options-hover);
+  --bottom-shadow: inset -2px -2px 4px var(--options-hover);
+  position: relative;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  width: 100%;
+}
+.InputContainer:before, .InputContainer:after {
+  left: 0;
+  top: 0;
+  display: block;
+  content: "";
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.InputContainer:before {
+  box-shadow: var(--bottom-shadow);
+}
+.InputContainer:after {
+  box-shadow: var(--top-shadow);
+}
+
+.Search__item {
+  display: block;
+  min-width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  color: white;
+  padding: 1rem;
+}
+
+.Search__item:hover{
+  color:rgba(255,255,255,.8);
+  border: 1px solid transparent;
 }

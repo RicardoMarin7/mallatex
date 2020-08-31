@@ -21,13 +21,6 @@ export default (state,action) =>{
                 }
             }
 
-        case FAILURE_REGISTER:
-            return{
-                ...state,
-                token:null,
-                message:action.payload
-            }
-
         case SUCCESSFUL_LOGIN:
             localStorage.setItem('mallatex-token', action.payload.token)
             return{
@@ -36,22 +29,50 @@ export default (state,action) =>{
                 message:{
                     msg: action.payload.msg,
                     category:'alerta-ok'
-                }
+                },
+                loading:true
             }
-
+        
+        case FAILURE_REGISTER:
         case FAILURE_LOGIN:
             localStorage.removeItem('mallatex-token')
             return{
                 ...state,
                 token:null,
-                message:action.payload
+                message:action.payload,
+                loading:true
+            }
+        
+        case LOGOUT:
+            localStorage.removeItem('mallatex-token')
+            return{
+                ...state,
+                auth:null,
+                token:null,
+                user:null,
+                loading:true
             }
 
         case GET_USER:
+            let {
+                _id,
+                email,
+                name,
+                level
+            } = action.payload.user
+
             return{
                 ...state,
-                user:action.payload
+                user:{
+                    _id,
+                    email,
+                    name,
+                    level
+                },
+                auth:true,
+                loading:true
             }
+
         default:
             return state
     }

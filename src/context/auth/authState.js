@@ -17,10 +17,11 @@ from '../../types'
 
 const AuthState = props =>{
     const initialState={
-        token: localStorage.getItem('token'),
+        token: localStorage.getItem('mallatex-token'),
         auth: null,
         user: null,
-        message: null
+        message: null,
+        loading: false,
     }
 
     const [state,dispatch] = useReducer(AuthReducer,initialState)
@@ -40,11 +41,20 @@ const AuthState = props =>{
             //Obtener usuario
             userAuthenticated()
         } catch (error) {
-            console.log(error.response)
-            const alert = {
-                msg:error.response.data.msg,
-                category:'alerta-error'
+            let alert
+            if(error.response){
+                alert = {
+                    msg:error.response.data.msg,
+                    category:'alerta-error'
+                }
             }
+            else{
+                alert = {
+                    msg:error.message,
+                    category:'alerta-error'
+                }
+            }
+
             dispatch({
                 type:FAILURE_REGISTER,
                 payload:alert
@@ -66,10 +76,24 @@ const AuthState = props =>{
                     payload:response.data
                 })
             } catch (error) {
-                console.log(error.response)
+                let alert
+                if(error.response){
+                    alert = {
+                        msg:error.response.data.msg,
+                        category:'alerta-error'
+                    }
+                }
+                else{
+                    alert = {
+                        msg:error.message,
+                        category:'alerta-error'
+                    }
+                }
+    
                 dispatch({
-                    type:FAILURE_LOGIN
-                })                
+                    type:FAILURE_LOGIN,
+                    payload:alert
+                })
             }
         }
     }
@@ -84,15 +108,32 @@ const AuthState = props =>{
 
             userAuthenticated()
         } catch (error) {
-            const alert = {
-                msg:error.response.data.msg,
-                category:'alerta-error'
+            let alert
+            if(error.response){
+                alert = {
+                    msg:error.response.data.msg,
+                    category:'alerta-error'
+                }
             }
+            else{
+                alert = {
+                    msg:error.message,
+                    category:'alerta-error'
+                }
+            }
+
             dispatch({
                 type:FAILURE_LOGIN,
                 payload:alert
             })
         }
+    }
+
+    //Cerrar sesion
+    const LogOut = () =>{
+        dispatch({
+            type:LOGOUT
+        })
     }
     
     return(
@@ -102,8 +143,11 @@ const AuthState = props =>{
                 auth:state.auth,
                 user:state.user,
                 message:state.message,
+                loading:state.loading,
                 registerUser,
-                Login
+                Login,
+                userAuthenticated,
+                LogOut
             }}
         >
             {props.children}

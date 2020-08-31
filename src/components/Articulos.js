@@ -22,8 +22,6 @@ const Articulos = ({agregarArticulo}) =>{
             return
         }
 
-    
-
         setArticulo({
             ...articulo,
             [e.target.name] : [e.target.value][0]

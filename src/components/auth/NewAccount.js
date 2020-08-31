@@ -13,7 +13,6 @@ const NewAccount = (props) => {
 
     //en caso de que el usuario se haya autenticado, registrado o sea un registro duplicado
     useEffect( ()=>{
-        
         if(message){
             const {msg,category} = message
             
@@ -28,9 +27,6 @@ const NewAccount = (props) => {
             showAlert(msg,category)
         }
 
-        if(auth){
-            props.history.push('/orders')
-        }
     },[message,auth,props.history])
 
     const [newUser,setNewUser] = useState({

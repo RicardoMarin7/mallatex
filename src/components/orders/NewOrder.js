@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 import Layout from '../layout/Layout'
-import { useState } from 'react'
+import SearchBar from '../utility/SearchBar'
+
+import AuthContext from '../../context/auth/authContext'
+import OrdersContext from '../../context/orders/ordersContext'
 
 const NewOrder = () =>{
 
@@ -13,6 +16,19 @@ const NewOrder = () =>{
 
         return fecha = `${anho}-${mes}-${dia}`
     }
+
+    const authContext = useContext(AuthContext)
+    const { user } = authContext
+
+    const ordersContext = useContext(OrdersContext)
+    const { getArticles, getProviders } = ordersContext
+
+    useEffect( () =>{
+        getProviders()
+        getArticles()
+        
+    },[])
+
 
     const [order,setOrder] = useState({
         fecha:today(),
@@ -78,51 +94,11 @@ const NewOrder = () =>{
                 {/* Empieza proveedor */}
                 <div className="row">
                     <div className="one-half column">
-                        <h5 className="Orden__titulo">Proveedor</h5>
-                        <label htmlFor="proveedor">Empresa </label>
-                        <input type="text" name="proveedor" placeholder="Digitalife" required className="u-full-width" onChange={handleChange}/>
-
-                        <label htmlFor="departamento_proveedor">Departamento </label>
-                        <input type="text" name="departamento_proveedor" placeholder="Sistemas" required className="u-full-width" onChange={handleChange} />
-
-                        <label htmlFor="direccion_proveedor">Direccion </label>
-                        <input type="text" name="direccion_proveedor" required className="u-full-width" onChange={handleChange}/>
-
-                        <div className="row">
-                            <div className="one-half column">
-                                <label htmlFor="email_proveedor">Email </label>
-                                <input type="email" name="email_proveedor" className="u-full-width" onChange={handleChange}/>    
-                            </div>
-
-                            <div className="one-half column">
-                                <label htmlFor="telefono_proveedor">Telefono </label>
-                                <input type="number" name="telefono_proveedor" className="u-full-width" onChange={handleChange}/>
-                            </div>
-                        </div>
+                        <SearchBar type="provider" key="1" />
                     </div>
 
                     <div className="one-half column">
-                        <h5 className="Orden__titulo">Creado por</h5>
-                        
-                        <label htmlFor="empleado">Empleado </label>
-                        <input type="text" name="empleado" readOnly required className="u-full-width"/>
-
-                        <label htmlFor="empresa_empleado">Empresa </label>
-                        <input type="text" name="empresa_empleado" value="Tejidos Tecnicos Mallatex S.A. De C.V." onChange={handleChange} required className="u-full-width"/>
-
-                        <label htmlFor="direccion_empleado">Direccion </label>
-                        <input type="text" name="direccion_empleado" value="Av. Iturbide # 5210.Zapopan, Jal." onChange={handleChange} required className="u-full-width"/>
-
-                        <div className="row">
-                            <div className="one-half column">
-                                <label htmlFor="telefono_empleado">Telefono </label>
-                                <input type="number" name="telefono_empleado" onChange={handleChange} required className="u-full-width"/>   
-                            </div>
-                            <div className="one-half column">
-                                <label htmlFor="email_empleado">Email </label>
-                                <input type="email" name="email_empleado" onChange={handleChange} required className="u-full-width"/>
-                            </div>
-                        </div>                
+                        <SearchBar type="articles" key="2" />
                     </div>
                 </div> {/* Termina proveedor */}
 
