@@ -22,10 +22,7 @@ import {
 const OrdersState = props => {
     
     const initialState = {
-        projects:[],
-        formNewProject : false,
-        errorForm : false,
-        project : null,
+        orders:[],
         providers:[],
         articles:[],
         selectedArticles:[],

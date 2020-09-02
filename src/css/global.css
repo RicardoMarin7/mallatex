@@ -393,28 +393,6 @@ select {
 
 /* Propios */
 
-.Logo__sidebar{
-    max-width: 100%;
-    padding: 2rem;
-}
-
-.Option{
-    display: block;
-    width: 100%;
-    background-color: var(--options);
-    color: var(--gris1);
-    padding: 1rem;
-    text-align: center;
-    font-weight: 400;
-    
-}
-
-.Option:hover{  
-    transition-duration: .15s;
-    transition-timing-function: ease-in-out;   
-    background-color: var(--options-hover) ; 
-}
-
 .Orden__titulo{
   text-align: center;
   background-color: rgba(193, 0, 23, .8);
@@ -706,6 +684,10 @@ tbody tr:hover {
   width: 10%;
 }
 
+.column6 {
+  width: 5%;
+}
+
 .DeleteButton {
   width:70%;
   font-size: 16px;
@@ -815,4 +797,51 @@ tbody tr:hover {
 
 .data{
   padding-top:50px;
+}
+
+/* Sidebar */
+
+.Logo__sidebar{
+  max-width: 100%;
+  padding: 2rem;
+}
+
+.Option{
+  display: block;
+  width: 100%;
+  background-color: var(--options);
+  color: var(--gris1);
+  padding: 1rem;
+  text-align: center;
+  font-weight: 400;
+  
+}
+
+.Option:hover{  
+  transition-duration: .15s;
+  transition-timing-function: ease-in-out;   
+  background-color: var(--options-hover) ; 
+}
+
+.Sidebar__suboption {
+  display: block;
+  padding: .8rem;
+  background: var(--options-hover);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.877);
+}
+
+.Sidebar__PrincipalOptions li{
+  margin: 0;
+}
+.Sidebar__hidden{
+  display: none;
+}
+
+.Sidebar__hidden:hover{
+  display: block;
+}
+
+.Option:hover + .Sidebar__hidden{
+  display: block;
 }

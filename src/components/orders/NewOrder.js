@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 
 import Layout from '../layout/Layout'
 import SearchBar from '../utility/SearchBar'
-import ArticleList from './ArticleList'
+import ArticleList from '../utility/ArticleList'
 
 import AuthContext from '../../context/auth/authContext'
 import OrdersContext from '../../context/orders/ordersContext'
@@ -129,7 +129,12 @@ const NewOrder = () =>{
                                 </div>
                             </div>
                         )
-                        :(<h3>Selecciona un proveedor</h3>)}
+                        :(
+                            <div className="row">
+                                <h3>Selecciona un proveedor</h3>
+                                <p>En la barra de busqueda, comienza a escribir y da click en tu proveedor</p>
+                            </div>
+                        )}
                     </div>
 
                     <div className="one-half column">

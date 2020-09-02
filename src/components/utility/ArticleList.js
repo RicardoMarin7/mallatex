@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import OrdersContext from '../../context/orders/ordersContext'
 import { useEffect } from 'react'
 
-const ArticleList = () =>{
+const ArticleList = ({quantity}) =>{
 
     const ordersContext = useContext(OrdersContext)
     const { selectedArticles, deleteSelectedArticle} = ordersContext
@@ -23,6 +23,7 @@ const ArticleList = () =>{
                     <th>Descripcion</th>
                     <th>Unidad</th>
                     <th>Linea</th>
+                    {quantity ? (<th>Cantidad</th>) : null}
                     <th></th>
                 </tr>
             </thead>
@@ -33,7 +34,12 @@ const ArticleList = () =>{
                         <td className="column2">{article.description}</td>
                         <td className="column3">{article.unit}</td>
                         <td className="column4">{article.line}</td>
-                        <td className="column5"><button className="DeleteButton" type="button" onClick={handleClick} data-key={article._id}>Eliminar</button></td>
+                        {quantity 
+                        ?(
+                            <td className="column5"><input className="quantity" type="number" name="quantity"/></td>
+                        ): null }
+                        <td className="column"><button className="DeleteButton" type="button" onClick={handleClick} data-key={article._id}>Eliminar</button></td>
+                        
                     </tr>
                 ))}
             </tbody>
