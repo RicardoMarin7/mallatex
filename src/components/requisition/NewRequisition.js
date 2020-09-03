@@ -6,6 +6,7 @@ import ArticleList from '../utility/ArticleList'
 
 import AuthContext from '../../context/auth/authContext'
 import OrdersContext from '../../context/orders/ordersContext'
+import RequisitionContext from '../../context/requisition/requisitionContext'
 
 const NewRequisition = () =>{
 
@@ -24,39 +25,25 @@ const NewRequisition = () =>{
     const ordersContext = useContext(OrdersContext)
     const { getArticles } = ordersContext
 
+    const requisitionContext = useContext(RequisitionContext)
+    const {  } = requisitionContext
+
     useEffect( () =>{
         getArticles()
     },[])
 
-
-    const [requisition,setRequisition] = useState({
-        fecha:today(),
-        direccion_empleado:'',
-        email_empleado:'',
-        telefono_empleado:'',
-        enviado_mediante:'',
-        fob:'',
-        empleado_envio:'',
-    })    
-
-    const handleChange = e =>{
-        setRequisition({
-            ...requisition,
-            [e.target.name]:e.target.value
-        })
+    const handleSubmit = e =>{
+        e.preventDefault()
     }
-    
 
     return(
         <Layout>
 
             <h1>Nueva Requisición</h1>
-            <form>
-
-                
+            <form onSubmit={handleSubmit}>
 
                 <div className="row">
-                    <SearchBar type="articles" />
+                    <SearchBar type="articles" context="requisition"/>
                 </div>
 
                 <div className="row data">
@@ -101,8 +88,10 @@ const NewRequisition = () =>{
 
                 <div className="row">
                     <h2>Articulos Seleccionados</h2>
-                    <ArticleList quantity={true} />
-                </div> 
+                    <ArticleList quantity={true} context='requisition' />
+                </div>
+
+                <button>Enviar</button>
 
             </form>
         </Layout>

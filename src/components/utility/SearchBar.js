@@ -1,15 +1,19 @@
 import React, { useContext, useState  } from 'react'
 import OrdersContext from '../../context/orders/ordersContext'
 import AlertsContext from '../../context/alerts/alertsContext'
+import RequisitionContext from '../../context/requisition/requisitionContext'
 import { useEffect } from 'react'
 
-const SearchBar = ({type}) =>{
+const SearchBar = ({type, context}) =>{
 
     const alertsContext = useContext(AlertsContext)
     const { alert, showAlert } = alertsContext
 
     const ordersContext = useContext(OrdersContext)
-    const { providers, articles, selectArticles, selectedArticles, message, selectProvider} = ordersContext
+    const { providers, articles, selectedArticles, message, selectProvider} = ordersContext
+
+    const requisitionContext = useContext(RequisitionContext)
+    const { requisitionSelectedArticles, selectRequisitionArticles } = requisitionContext
 
     const [filteredProviders, setFilteredProviders] = useState([])
     const [filteredArticles, setFilteredArticles] = useState([])
@@ -59,17 +63,30 @@ const SearchBar = ({type}) =>{
         //console.log(selected)
 
         let alreadyAdded
-        //validar que no exista en articulos seleccionados
-        if(selectedArticles){
-            alreadyAdded = selectedArticles.find( article => article._id === selected._id)
-        }
 
+        if(context === 'requisition'){
+            if(requisitionSelectedArticles){
+                alreadyAdded = requisitionSelectedArticles.find( article => article._id === selected._id)
+            }
+        }
+        else{
+            if(selectedArticles){
+                alreadyAdded = selectedArticles.find( article => article._id === selected._id)
+            }
+        }
+        //validar que no exista en articulos seleccionados
         if(alreadyAdded){
             showAlert('El articulo ya ha sido seleccionado', 'alerta-error')
             return
         }
         
-        selectArticles(selected)
+        if(context === 'requisition'){
+            selectRequisitionArticles(selected)
+        }
+        else{
+            selectedArticles(selected)
+        }
+        
     }
 
     return(

@@ -15,6 +15,7 @@ import NewRequisition from './components/requisition/NewRequisition'
 import AlertState from './context/alerts/alertsState'
 import AuthState from './context/auth/authState';
 import OrdersState from './context/orders/ordersState';
+import RequisitionState from './context/requisition/requisitionState';
 
 //Other
 import AuthToken from './config/authToken'
@@ -31,19 +32,21 @@ function App() {
 
   return (
       <OrdersState>
-        <AlertState>
-          <AuthState>
-            <BrowserRouter> 
-                <Switch>
-                  <Route exact path="/" component={Login}/>
-                  <PrivateRoute exact path="/orders" component={Orders}/>
-                  <PrivateRoute exact path="/orders/new" component={NewOrder}/>
-                  <PrivateRoute exact path="/requisitions/new" component={NewRequisition}/>
-                  <PrivateRoute exact path="/new-account" component={NewAccount}/>
-                </Switch>
-            </BrowserRouter>
-        </AuthState>
-      </AlertState>
+        <RequisitionState>
+          <AlertState>
+            <AuthState>
+              <BrowserRouter> 
+                  <Switch>
+                    <Route exact path="/" component={Login}/>
+                    <PrivateRoute exact path="/orders" component={Orders}/>
+                    <PrivateRoute exact path="/orders/new" component={NewOrder}/>
+                    <PrivateRoute exact path="/requisitions/new" component={NewRequisition}/>
+                    <PrivateRoute exact path="/new-account" component={NewAccount}/>
+                  </Switch>
+              </BrowserRouter>
+          </AuthState>
+        </AlertState>
+      </RequisitionState>
     </OrdersState>
   )
 }
