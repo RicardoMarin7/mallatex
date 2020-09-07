@@ -39,7 +39,6 @@ const OrdersState = props => {
     const getArticles = async () =>{
         try {
             const response = await AxiosClient.get('/api/articles/')
-            console.log(response.data.articles)
             const articles = response.data.articles
 
             dispatch({

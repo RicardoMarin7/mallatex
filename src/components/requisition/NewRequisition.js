@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import Layout from '../layout/Layout'
 import SearchBar from '../utility/SearchBar'
@@ -7,6 +7,7 @@ import ArticleList from '../utility/ArticleList'
 import AuthContext from '../../context/auth/authContext'
 import OrdersContext from '../../context/orders/ordersContext'
 import RequisitionContext from '../../context/requisition/requisitionContext'
+import AlertsContext from '../../context/alerts/alertsContext'
 
 const NewRequisition = () =>{
 
@@ -19,21 +20,66 @@ const NewRequisition = () =>{
         return fecha = `${anho}-${mes}-${dia}`
     }
 
+    //Context
+
     const authContext = useContext(AuthContext)
     const { user } = authContext
 
+    const alertsContext = useContext(AlertsContext)
+    const { alert, showAlert } = alertsContext
+
     const ordersContext = useContext(OrdersContext)
-    const { getArticles } = ordersContext
+    const { getArticles, articles} = ordersContext
 
     const requisitionContext = useContext(RequisitionContext)
-    const {  } = requisitionContext
+    const { requisitionArticles,createRequisition } = requisitionContext
+
+    //State local
+    const [requisition,setRequisition] = useState({
+        comments:'',
+        articles:[]
+    })
 
     useEffect( () =>{
-        getArticles()
-    },[])
+        if(articles.length < 1){
+            getArticles()
+        }
+
+        setRequisition({
+            ...requisition,
+            articles:requisitionArticles
+        })
+    },[requisitionArticles])
 
     const handleSubmit = e =>{
         e.preventDefault()
+        if(requisitionArticles.length < 1){
+            showAlert('Debes seleccionar por lo menos un articulo','alerta-error')
+            return
+        }
+
+        for(let i = 0; i < requisitionArticles.length ; i++){
+            const articleQuantity = requisitionArticles[i].quantity
+            if(articleQuantity === '' || articleQuantity < 1){
+                showAlert('La cantidad en todos los articulos debe ser mayor que 0','alerta-error')
+                return
+            }
+            
+        }
+        
+        setRequisition({
+            comments:'',
+            articles:[]
+        })
+
+        createRequisition(requisition)
+    }
+
+    const handleChange = e =>{
+        setRequisition({
+            ...requisition,
+            [e.target.name]:e.target.value
+        })
     }
 
     return(
@@ -63,8 +109,8 @@ const NewRequisition = () =>{
                                 <input type="date" name="fecha" value={today()} readOnly/>
                             </div>
 
-                            <label htmlFor="comentarios">Comentarios</label>
-                            <textarea name="comentarios" className="u-full-width" id=""></textarea>
+                            <label htmlFor="comments">Comentarios</label>
+                            <textarea name="comments" className="u-full-width" onChange={handleChange} placeholder="Escribe aqui tus comentarios"></textarea>
                             
                         </div>
 
@@ -91,7 +137,7 @@ const NewRequisition = () =>{
                     <ArticleList quantity={true} context='requisition' />
                 </div>
 
-                <button>Enviar</button>
+                <button className="button button-primary">Crear Requisición</button>
 
             </form>
         </Layout>

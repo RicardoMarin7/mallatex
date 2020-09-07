@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import OrdersContext from '../../context/orders/ordersContext'
 import RequisitionContext from '../../context/requisition/requisitionContext'
-import { useEffect } from 'react'
 
 const ArticleList = ({quantity, context}) =>{
 
@@ -9,7 +8,13 @@ const ArticleList = ({quantity, context}) =>{
     const { selectedArticles, deleteSelectedArticle} = ordersContext
 
     const requisitionContext = useContext(RequisitionContext)
-    const { requisitionSelectedArticles,  deleteRequisitionSelectedArticle } = requisitionContext
+    const { requisitionSelectedArticles,  deleteRequisitionSelectedArticle, setReqArticles} = requisitionContext
+
+    const [requisitionArticles, setRequisitionArticles] = useState([])
+
+    useEffect( () =>{
+        setReqArticles(requisitionArticles)
+    },[requisitionArticles])
 
     let articles = []
     if(context === 'requisition'){
@@ -18,7 +23,6 @@ const ArticleList = ({quantity, context}) =>{
         }
 
         articles = requisitionSelectedArticles
-
     }
 
     else{
@@ -27,12 +31,17 @@ const ArticleList = ({quantity, context}) =>{
         }
         articles = selectedArticles
     }
-    
 
     const handleClick = e =>{
         if(context === 'requisition'){
-            deleteRequisitionSelectedArticle(e.target.getAttribute('data-key'))
+            const articleID = e.target.getAttribute('data-key')
+            deleteRequisitionSelectedArticle(articleID)
+            const alreadyAdded = requisitionArticles.findIndex( article => article.article === articleID)
+            if(alreadyAdded >= 0 ){
+                setRequisitionArticles( requisitionArticles.filter (article => article.article !== articleID))
+            }
         }
+
         else{
             deleteSelectedArticle(e.target.getAttribute('data-key'))
         }
@@ -40,7 +49,37 @@ const ArticleList = ({quantity, context}) =>{
     }
 
     const handleChange = e =>{
-        e.target.getAttribute('data-key')
+        const articleID = e.target.getAttribute('data-key')
+        if(requisitionArticles.length > 0){
+            const alreadyAdded = requisitionArticles.findIndex( article => article.article === articleID)
+
+            if(alreadyAdded >= 0){
+                setRequisitionArticles( requisitionArticles.map( article =>{
+                    if(article.article === articleID){
+                        article.quantity = e.target.value
+                    }
+
+                    return article
+                } ))
+
+                
+                return
+            }
+            
+            setRequisitionArticles([
+                ...requisitionArticles,
+                    {article:articleID,
+                    quantity:e.target.value}
+            ])
+
+            return
+        }
+
+        setRequisitionArticles([
+            ...requisitionArticles,
+                {article:articleID,
+                quantity:e.target.value}
+        ])
     }
 
     return(
