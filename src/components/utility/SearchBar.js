@@ -13,7 +13,7 @@ const SearchBar = ({type, context}) =>{
     const { providers, articles, selectedArticles, message, selectProvider} = ordersContext
 
     const requisitionContext = useContext(RequisitionContext)
-    const { requisitionSelectedArticles, selectRequisitionArticles } = requisitionContext
+    const { requisitionSelectedArticles, selectRequisitionArticles, setReqArticles } = requisitionContext
 
     const [filteredProviders, setFilteredProviders] = useState([])
     const [filteredArticles, setFilteredArticles] = useState([])
@@ -60,18 +60,18 @@ const SearchBar = ({type, context}) =>{
 
     const handleArticleClick = e =>{
         const [selected] = articles.filter( article => article._id === e.target.getAttribute('data-key'))
-        //console.log(selected)
+        const articleID = selected._id
 
         let alreadyAdded
 
         if(context === 'requisition'){
             if(requisitionSelectedArticles){
-                alreadyAdded = requisitionSelectedArticles.find( article => article._id === selected._id)
+                alreadyAdded = requisitionSelectedArticles.find( article => article._id === articleID)
             }
         }
         else{
             if(selectedArticles){
-                alreadyAdded = selectedArticles.find( article => article._id === selected._id)
+                alreadyAdded = selectedArticles.find( article => article._id === articleID)
             }
         }
         //validar que no exista en articulos seleccionados
@@ -82,6 +82,10 @@ const SearchBar = ({type, context}) =>{
         
         if(context === 'requisition'){
             selectRequisitionArticles(selected)
+            setReqArticles({
+                article:articleID,
+                quantity:null
+            })
         }
         else{
             selectedArticles(selected)
@@ -91,7 +95,6 @@ const SearchBar = ({type, context}) =>{
 
     return(
         <React.Fragment>
-            {alert ? <div className={`alerta ${alert.category}`}>{alert.msg}</div>: null}
             <div className="Card">
                 <div className="CardInner">
                     <label className="Search__Title">{title}</label>

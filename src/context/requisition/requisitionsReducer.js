@@ -4,7 +4,8 @@ import {
     DELETE_SELECTED_ARTICLE,
     REQUISITION_ARTICLES,
     CREATE_ERROR,
-    CREATE_REQUISITION
+    CREATE_REQUISITION,
+    UPDATE_REQUISITION_ARTICLE
 
 } from '../../types'
 
@@ -21,18 +22,37 @@ export default (state,action) =>{
             return{
                 ...state,
                 requisitionSelectedArticles:[...state.requisitionSelectedArticles, action.payload],
+                message:{
+                    msg: 'Artículo añadido con éxito',
+                    category:'alerta-ok'
+                }
             }
 
         case REQUISITION_ARTICLES:
             return{
                 ...state,
-                requisitionArticles: action.payload,
+                requisitionArticles: [...state.requisitionArticles , action.payload]
             }
 
         case DELETE_SELECTED_ARTICLE:
             return{
                 ...state,
-                requisitionSelectedArticles:state.requisitionSelectedArticles.filter( article => article._id !== action.payload )
+                requisitionSelectedArticles:state.requisitionSelectedArticles.filter( article => article._id !== action.payload ),
+                requisitionArticles:state.requisitionArticles.filter( article => article.article !== action.payload )
+            }
+
+        case UPDATE_REQUISITION_ARTICLE:            
+            const newRequisitionArticles = state.requisitionArticles.map( article =>{
+                if(article.article === action.payload.article){
+                    article.quantity = action.payload.quantity
+                }
+
+                return article
+            })
+
+            return{
+                ...state,
+                requisitionArticles:newRequisitionArticles
             }
 
         case CREATE_REQUISITION:
@@ -41,10 +61,9 @@ export default (state,action) =>{
                 requisitionArticles:[],
                 requisitionSelectedArticles:[],
                 message:{
-                    msg: action.payload.msg,
+                    msg: 'Requisición creada con éxito',
                     category:'alerta-ok'
-                },
-                created:true
+                }
             }
         
         case CREATE_ERROR:

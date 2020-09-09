@@ -8,13 +8,13 @@ const ArticleList = ({quantity, context}) =>{
     const { selectedArticles, deleteSelectedArticle} = ordersContext
 
     const requisitionContext = useContext(RequisitionContext)
-    const { requisitionSelectedArticles,  deleteRequisitionSelectedArticle, setReqArticles} = requisitionContext
+    const { requisitionSelectedArticles,  deleteRequisitionSelectedArticle, setReqArticles, requisitionArticles, updateRequisitionArticle} = requisitionContext
 
-    const [requisitionArticles, setRequisitionArticles] = useState([])
+    //const [requisitionArticles, setRequisitionArticles] = useState([])
 
     useEffect( () =>{
-        setReqArticles(requisitionArticles)
-    },[requisitionArticles])
+        
+    },[])
 
     let articles = []
     if(context === 'requisition'){
@@ -36,10 +36,6 @@ const ArticleList = ({quantity, context}) =>{
         if(context === 'requisition'){
             const articleID = e.target.getAttribute('data-key')
             deleteRequisitionSelectedArticle(articleID)
-            const alreadyAdded = requisitionArticles.findIndex( article => article.article === articleID)
-            if(alreadyAdded >= 0 ){
-                setRequisitionArticles( requisitionArticles.filter (article => article.article !== articleID))
-            }
         }
 
         else{
@@ -50,36 +46,9 @@ const ArticleList = ({quantity, context}) =>{
 
     const handleChange = e =>{
         const articleID = e.target.getAttribute('data-key')
-        if(requisitionArticles.length > 0){
-            const alreadyAdded = requisitionArticles.findIndex( article => article.article === articleID)
+        const quantity = e.target.value
 
-            if(alreadyAdded >= 0){
-                setRequisitionArticles( requisitionArticles.map( article =>{
-                    if(article.article === articleID){
-                        article.quantity = e.target.value
-                    }
-
-                    return article
-                } ))
-
-                
-                return
-            }
-            
-            setRequisitionArticles([
-                ...requisitionArticles,
-                    {article:articleID,
-                    quantity:e.target.value}
-            ])
-
-            return
-        }
-
-        setRequisitionArticles([
-            ...requisitionArticles,
-                {article:articleID,
-                quantity:e.target.value}
-        ])
+        updateRequisitionArticle({article:articleID,quantity})    
     }
 
     return(

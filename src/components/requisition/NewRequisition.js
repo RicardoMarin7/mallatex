@@ -32,7 +32,7 @@ const NewRequisition = () =>{
     const { getArticles, articles} = ordersContext
 
     const requisitionContext = useContext(RequisitionContext)
-    const { requisitionArticles,createRequisition } = requisitionContext
+    const { requisitionArticles,createRequisition, message } = requisitionContext
 
     //State local
     const [requisition,setRequisition] = useState({
@@ -40,16 +40,25 @@ const NewRequisition = () =>{
         articles:[]
     })
 
+    const {comments} = requisition
+
     useEffect( () =>{
         if(articles.length < 1){
             getArticles()
+        }
+
+        console.log(message)
+
+        if(message){
+            const {msg,category} = message
+            showAlert(msg,category)
         }
 
         setRequisition({
             ...requisition,
             articles:requisitionArticles
         })
-    },[requisitionArticles])
+    },[requisitionArticles,message])
 
     const handleSubmit = e =>{
         e.preventDefault()
@@ -71,7 +80,6 @@ const NewRequisition = () =>{
             comments:'',
             articles:[]
         })
-
         createRequisition(requisition)
     }
 
@@ -84,6 +92,7 @@ const NewRequisition = () =>{
 
     return(
         <Layout>
+            {alert ? <div className={`alerta ${alert.category}`}>{alert.msg}</div>: null}
 
             <h1>Nueva Requisición</h1>
             <form onSubmit={handleSubmit}>
@@ -110,7 +119,7 @@ const NewRequisition = () =>{
                             </div>
 
                             <label htmlFor="comments">Comentarios</label>
-                            <textarea name="comments" className="u-full-width" onChange={handleChange} placeholder="Escribe aqui tus comentarios"></textarea>
+                            <textarea name="comments" className="u-full-width" value={comments} onChange={handleChange} placeholder="Escribe aqui tus comentarios"></textarea>
                             
                         </div>
 
@@ -134,7 +143,7 @@ const NewRequisition = () =>{
 
                 <div className="row">
                     <h2>Articulos Seleccionados</h2>
-                    <ArticleList quantity={true} context='requisition' />
+                    <ArticleList quantity={true} context='requisition'/>
                 </div>
 
                 <button className="button button-primary">Crear Requisición</button>

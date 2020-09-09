@@ -9,7 +9,8 @@ import {
     DELETE_SELECTED_ARTICLE,
     REQUISITION_ARTICLES,
     CREATE_REQUISITION,
-    CREATE_ERROR
+    CREATE_ERROR,
+    UPDATE_REQUISITION_ARTICLE
 } from '../../types'
 
 
@@ -51,6 +52,13 @@ const RequisitionState = props => {
         })
     }
 
+    const updateRequisitionArticle = article =>{
+        dispatch({
+            type:UPDATE_REQUISITION_ARTICLE,
+            payload:article
+        })
+    }
+
     //Crear una requisicion
     const createRequisition = async data =>{
         try {
@@ -86,10 +94,12 @@ const RequisitionState = props => {
         <RequisitionsContext.Provider value ={{
             requisitionSelectedArticles:state.requisitionSelectedArticles,
             requisitionArticles:state.requisitionArticles,
+            message:state.message,
             selectRequisitionArticles,
             deleteRequisitionSelectedArticle,
             setReqArticles,
             createRequisition,
+            updateRequisitionArticle,
         }}>
             {props.children}
         </RequisitionsContext.Provider>
