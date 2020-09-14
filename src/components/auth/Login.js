@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import AlertsContext from '../../context/alerts/alertsContext'
 import AuthContext from '../../context/auth/authContext'
 import { useEffect } from 'react'
+import logo from '../../img/logo_light.png'
 
 const Login = (props) => {
 
@@ -63,42 +64,48 @@ const Login = (props) => {
     }
 
     return(
-        <div className="form-usuario">
-            {alert ? <div className={`alerta ${alert.category}`}>{alert.msg}</div>: null}
-            <div className="contenedor-form sombra-dark">
-                <h1>Inicia sesion con tu cuenta</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className="campo-form">
-                        <label htmlFor="email">Email</label>
-                        <input 
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="email@example.com"
-                            onChange={handleChange}
-                        />
-                    </div>
+        <React.Fragment>
+            
+            <div className="form-usuario">
+                <img src={logo} alt="Logo Mallatex en tonos blancos" className="logo_login" />
+                {alert ? <div className={`alerta ${alert.category}`}>{alert.msg}</div>: null}
+                <div className="contenedor-form sombra-dark">
+                    <h1>Inicia sesion con tu cuenta</h1>
+                    <form onSubmit={handleSubmit}>
+                        <div className="campo-form">
+                            <label htmlFor="email">Email</label>
+                            <input 
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="email@example.com"
+                                className="u-full-width"
+                                onChange={handleChange}
+                            />
+                        </div>
 
-                    <div className="campo-form">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            id="password"
-                            name="password"
-                            onChange={handleChange}
-                            placeholder="Password"
-                        />
-                        {showPassword ? <i className="fas fa-eye-slash icon-password" onClick={handleClick}></i> : <i className="fas fa-eye icon-password" onClick={handleClick}></i> }
-                    </div>
+                        <div className="campo-form">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                id="password"
+                                name="password"
+                                onChange={handleChange}
+                                className="u-full-width"
+                                placeholder="Password"
+                            />
+                            {showPassword ? <i className="fas fa-eye-slash icon-password" onClick={handleClick}></i> : <i className="fas fa-eye icon-password" onClick={handleClick}></i> }
+                        </div>
 
-                    <div className="campo-form">
-                        <button className="btn-primario btn btn-block">Iniciar Sesion</button>
-                    </div>
+                        <div className="campo-form">
+                            <button className="btn-primario btn btn-block">Iniciar Sesion</button>
+                        </div>
 
-                    <Link to="/new-account" className="enlace-cuenta">Aun no tienes una cuenta? Registrate</Link>
-                </form>
+                        <Link to="/new-account" className="enlace-cuenta">Aun no tienes una cuenta? Registrate</Link>
+                    </form>
+                </div>
             </div>
-        </div>
+        </React.Fragment>
     )
 }
 

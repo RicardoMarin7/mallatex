@@ -37,10 +37,12 @@ const NewRequisition = () =>{
     //State local
     const [requisition,setRequisition] = useState({
         comments:'',
-        articles:[]
+        articles:[],
+        sendTo:'',
+        client:''
     })
 
-    const {comments} = requisition
+    const {comments, sendTo, client} = requisition
 
     useEffect( () =>{
         if(articles.length < 1){
@@ -107,36 +109,50 @@ const NewRequisition = () =>{
                         <div className="row">
 
                             <div className="one-half column">
-                                <label className="" htmlFor="folio">Folio </label>
-                                <input type="number" name="folio" value="1" readOnly/>
-
-                                
+                                <label htmlFor="folio">Folio </label>
+                                <input className="u-full-width" type="number" name="folio" value="1" readOnly/>
                             </div>
 
                             <div className="one-half column">
-                                <label className="" htmlFor="fecha">Fecha </label>
-                                <input type="date" name="fecha" value={today()} readOnly/>
+                                <label htmlFor="fecha">Fecha </label>
+                                <input className="u-full-width" type="date" name="fecha" value={today()} readOnly/>
                             </div>
 
-                            <label htmlFor="comments">Comentarios</label>
-                            <textarea name="comments" className="u-full-width" value={comments} onChange={handleChange} placeholder="Escribe aqui tus comentarios"></textarea>
+                        </div>
+
+                        <div className="row">
+                            <div className="one-half column">
+                                    <label htmlFor="sendTo">Enviar a </label>
+                                    <input className="u-full-width" type="text" name="sendTo" value={sendTo} onChange={handleChange} />
+                            </div>
+
+                            <div className="one-half column">
+                                    <label htmlFor="client">Cliente</label>
+                                    <input className="u-full-width" type="text" name="client" value={client} onChange={handleChange} />
+                            </div>
                             
                         </div>
+
+                        <div className="row">
+                            <label htmlFor="comments">Comentarios</label>
+                            <textarea name="comments" className="u-full-width" value={comments} onChange={handleChange} placeholder="Escribe aqui tus comentarios"></textarea>
+                        </div>
+                        
 
                     </div>
 
                     <div className="one-half column">
                         <label htmlFor="employee">Empleado</label>
-                        <input type="text" name="employee" className="u-full-width" value={user.name} readOnly />
+                        <input type="text" name="employee" className="u-full-width mb-5" value={user.name} readOnly />
 
                         <label htmlFor="empresa">Empresa</label>
-                        <input type="text" name="employee" className="u-full-width" value={'Tejidos Tecnicos Mallatex S.A. De C.V.'} readOnly />
+                        <input type="text" name="employee" className="u-full-width mb-5" value={'Tejidos Tecnicos Mallatex S.A. De C.V.'} readOnly />
 
                         <label htmlFor="employee_address">Direccion</label>
-                        <input type="text" name="employee_address" className="u-full-width" value={'Av. Iturbide #5210, Zapopan, Jal.'} readOnly />
+                        <input type="text" name="employee_address" className="u-full-width mb-5" value={'Av. Iturbide #5210, Zapopan, Jal.'} readOnly />
 
                         <label htmlFor="email">Email</label>
-                        <input type="text" name="email" className="u-full-width" value={user.email} readOnly />   
+                        <input type="text" name="email" className="u-full-width mb-5" value={user.email} readOnly />   
                     </div>
 
                 </div>

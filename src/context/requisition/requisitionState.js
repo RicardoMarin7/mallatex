@@ -96,7 +96,6 @@ const RequisitionState = props => {
         try {
             const response = await AxiosClient.get('/api/requisitions/')
             const requisitions = response.data.requisitions
-            console.log(response.data.requisitions)
             dispatch({
                 type: GET_REQUISITIONS,
                 payload: requisitions
