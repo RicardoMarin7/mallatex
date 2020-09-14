@@ -8,7 +8,11 @@ const ArticleList = ({quantity, context}) =>{
     const { selectedArticles, deleteSelectedArticle} = ordersContext
 
     const requisitionContext = useContext(RequisitionContext)
-    const { requisitionSelectedArticles,  deleteRequisitionSelectedArticle, setReqArticles, requisitionArticles, updateRequisitionArticle} = requisitionContext
+    const {
+        requisitionSelectedArticles,
+        deleteRequisitionSelectedArticle,
+        updateRequisitionArticle,
+    } = requisitionContext;
 
     //const [requisitionArticles, setRequisitionArticles] = useState([])
 

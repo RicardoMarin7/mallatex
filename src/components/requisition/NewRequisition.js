@@ -47,8 +47,6 @@ const NewRequisition = () =>{
             getArticles()
         }
 
-        console.log(message)
-
         if(message){
             const {msg,category} = message
             showAlert(msg,category)
@@ -78,7 +76,9 @@ const NewRequisition = () =>{
         
         setRequisition({
             comments:'',
-            articles:[]
+            articles:[],
+            sendTo:'',
+            client:''
         })
         createRequisition(requisition)
     }

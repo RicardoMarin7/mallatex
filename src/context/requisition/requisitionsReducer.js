@@ -5,7 +5,7 @@ import {
     REQUISITION_ARTICLES,
     CREATE_ERROR,
     CREATE_REQUISITION,
-    UPDATE_REQUISITION_ARTICLE
+    UPDATE_REQUISITION_ARTICLE, GET_REQUISITIONS
 
 } from '../../types'
 
@@ -52,7 +52,8 @@ export default (state,action) =>{
 
             return{
                 ...state,
-                requisitionArticles:newRequisitionArticles
+                requisitionArticles:newRequisitionArticles,
+                message:null
             }
 
         case CREATE_REQUISITION:
@@ -70,6 +71,12 @@ export default (state,action) =>{
             return{
                 ...state,
                 message:action.payload,
+            }
+
+        case GET_REQUISITIONS:
+            return{
+                ...state,
+                requisitions:action.payload
             }
     
 

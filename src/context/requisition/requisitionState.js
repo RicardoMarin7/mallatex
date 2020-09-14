@@ -10,7 +10,8 @@ import {
     REQUISITION_ARTICLES,
     CREATE_REQUISITION,
     CREATE_ERROR,
-    UPDATE_REQUISITION_ARTICLE
+    UPDATE_REQUISITION_ARTICLE,
+    GET_REQUISITIONS
 } from '../../types'
 
 
@@ -90,8 +91,24 @@ const RequisitionState = props => {
         
     }
 
+    //Get requisitions
+    const getRequisitions = async () =>{
+        try {
+            const response = await AxiosClient.get('/api/requisitions/')
+            const requisitions = response.data.requisitions
+            console.log(response.data.requisitions)
+            dispatch({
+                type: GET_REQUISITIONS,
+                payload: requisitions
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return(
         <RequisitionsContext.Provider value ={{
+            requisitions:state.requisitions,
             requisitionSelectedArticles:state.requisitionSelectedArticles,
             requisitionArticles:state.requisitionArticles,
             message:state.message,
@@ -100,6 +117,7 @@ const RequisitionState = props => {
             setReqArticles,
             createRequisition,
             updateRequisitionArticle,
+            getRequisitions
         }}>
             {props.children}
         </RequisitionsContext.Provider>

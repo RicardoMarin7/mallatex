@@ -1,15 +1,21 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom'
 
 //Higher Component
 import PrivateRoute from './components/routes/PrivateRoute'
 
 //Components
+  //Auth
 import Login from './components/auth/Login'
 import NewAccount from './components/auth/NewAccount'
+
+  //Orders
 import Orders from './components/orders/Orders'
 import NewOrder from './components/orders/NewOrder'
+
+  //Requisitions
 import NewRequisition from './components/requisition/NewRequisition'
+import Requisitions from './components/requisition/Requisitions'
 
 //State
 import AlertState from './context/alerts/alertsState'
@@ -42,6 +48,7 @@ function App() {
                     <PrivateRoute exact path="/orders/new" component={NewOrder}/>
                     <PrivateRoute exact path="/requisitions/new" component={NewRequisition}/>
                     <PrivateRoute exact path="/new-account" component={NewAccount}/>
+                    <PrivateRoute exact path="/requisitions" component={Requisitions}/>
                   </Switch>
               </BrowserRouter>
           </AuthState>
