@@ -5,7 +5,9 @@ import {
     REQUISITION_ARTICLES,
     CREATE_ERROR,
     CREATE_REQUISITION,
-    UPDATE_REQUISITION_ARTICLE, GET_REQUISITIONS
+    UPDATE_REQUISITION_ARTICLE, 
+    GET_REQUISITIONS,
+    DELETE_REQUISITION
 
 } from '../../types'
 
@@ -77,6 +79,12 @@ export default (state,action) =>{
             return{
                 ...state,
                 requisitions:action.payload
+            }
+
+        case DELETE_REQUISITION:
+            return{
+                ...state,
+                requisitions: state.requisitions.filter( requisition => requisition._id !== action.payload)
             }
     
 

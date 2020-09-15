@@ -11,6 +11,7 @@
     "jspdf": "^2.1.1",
     "jspdf-autotable": "^3.5.12",
     "react": "^16.13.1",
+    "react-confirm-alert": "^2.6.2",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3"

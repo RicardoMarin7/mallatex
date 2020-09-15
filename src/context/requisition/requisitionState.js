@@ -11,7 +11,8 @@ import {
     CREATE_REQUISITION,
     CREATE_ERROR,
     UPDATE_REQUISITION_ARTICLE,
-    GET_REQUISITIONS
+    GET_REQUISITIONS,
+    DELETE_REQUISITION
 } from '../../types'
 
 
@@ -105,6 +106,20 @@ const RequisitionState = props => {
         }
     }
 
+    //Delete Requisitions
+    const deleteRequisition = async (id) =>{
+        try {
+            const response = await AxiosClient.delete(`/api/requisitions/${id}`)
+            console.log(response.data)
+            dispatch({
+                type: DELETE_REQUISITION,
+                payload:id
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return(
         <RequisitionsContext.Provider value ={{
             requisitions:state.requisitions,
@@ -115,6 +130,7 @@ const RequisitionState = props => {
             deleteRequisitionSelectedArticle,
             setReqArticles,
             createRequisition,
+            deleteRequisition,
             updateRequisitionArticle,
             getRequisitions
         }}>
