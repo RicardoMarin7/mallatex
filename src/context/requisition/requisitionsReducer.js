@@ -7,7 +7,7 @@ import {
     CREATE_REQUISITION,
     UPDATE_REQUISITION_ARTICLE, 
     GET_REQUISITIONS,
-    DELETE_REQUISITION
+    DELETE_REQUISITION, UPDATE_REQUISITION
 
 } from '../../types'
 
@@ -69,6 +69,7 @@ export default (state,action) =>{
                 }
             }
         
+        
         case CREATE_ERROR:
             return{
                 ...state,
@@ -85,6 +86,24 @@ export default (state,action) =>{
             return{
                 ...state,
                 requisitions: state.requisitions.filter( requisition => requisition._id !== action.payload)
+            }
+
+        case UPDATE_REQUISITION:
+            const newRequisitions = state.requisitions.map( requisition =>{
+                if(requisition._id === action.payload.requisition._id){
+                    requisition.state = action.payload.requisition.state
+                }
+
+                return requisition
+            })
+
+            return{
+                ...state,
+                requisitions:newRequisitions,
+                message:{
+                    msg:'Requisición Actualizada con Éxito',
+                    category:'alerta-ok'
+                }
             }
     
 

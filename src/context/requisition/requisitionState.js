@@ -12,7 +12,8 @@ import {
     CREATE_ERROR,
     UPDATE_REQUISITION_ARTICLE,
     GET_REQUISITIONS,
-    DELETE_REQUISITION
+    DELETE_REQUISITION,
+    UPDATE_REQUISITION
 } from '../../types'
 
 
@@ -120,6 +121,26 @@ const RequisitionState = props => {
         }
     }
 
+    //Update Requisition
+    const updateRequisition = async requisition =>{
+        try {
+            const response = await AxiosClient.put(`/api/requisitions/${requisition._id}`,requisition)
+            console.log(response.data)
+            dispatch({
+                type: UPDATE_REQUISITION,
+                payload:response.data
+            })
+        } catch (error) {
+            dispatch({
+                type: CREATE_ERROR,
+                payload:{
+                    msg:error.response.data.msg,
+                    category:'alerta-error'
+                }
+            })
+        }
+    }
+
     return(
         <RequisitionsContext.Provider value ={{
             requisitions:state.requisitions,
@@ -131,6 +152,7 @@ const RequisitionState = props => {
             setReqArticles,
             createRequisition,
             deleteRequisition,
+            updateRequisition,
             updateRequisitionArticle,
             getRequisitions
         }}>
