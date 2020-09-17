@@ -51,15 +51,15 @@ const SearchBar = ({type, context}) =>{
         }
     }
 
-    const handleProviderClick = e =>{
-        const [selected] = providers.filter( provider => provider._id === e.target.getAttribute('data-key'))
+    const handleProviderClick = id =>{
+        const [selected] = providers.filter( provider => provider._id === id)
         selectProvider(selected)
         setFilteredProviders('')
 
     }
 
-    const handleArticleClick = e =>{
-        const [selected] = articles.filter( article => article._id === e.target.getAttribute('data-key'))
+    const handleArticleClick = id =>{
+        const [selected] = articles.filter( article => article._id === id)
         const articleID = selected._id
 
         let alreadyAdded
@@ -111,12 +111,12 @@ const SearchBar = ({type, context}) =>{
                 {filteredProviders.length > 0
                 ?(
                     filteredProviders.map( filter =>{
-                        return <button type="button" className="Search__item" onClick={handleProviderClick} key={filter._id} data-key={filter._id}>{filter.name}</button>
+                        return <button type="button" className="Search__item" onClick={() => handleProviderClick(filter._id)} key={filter._id}>{filter.name}</button>
                     })
                 ) 
                 :(
                     filteredArticles.map( filter =>{
-                        return <button type="button" className="Search__item" onClick={handleArticleClick} key={filter._id} data-key={filter._id}> <span>{filter.code}</span> {filter.description}</button>
+                        return <button type="button" className="Search__item" onClick={() => handleArticleClick(filter._id)} key={filter._id}> <span>{filter.code}</span> {filter.description}</button>
                     })
                 )}
             </div>

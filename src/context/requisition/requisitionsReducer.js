@@ -79,7 +79,8 @@ export default (state,action) =>{
         case GET_REQUISITIONS:
             return{
                 ...state,
-                requisitions:action.payload
+                requisitions:action.payload,
+                message: null
             }
 
         case DELETE_REQUISITION:

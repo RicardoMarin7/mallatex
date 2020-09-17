@@ -5,6 +5,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 //Context
 import RequisitionContext from '../../context/requisition/requisitionContext'
 import AlertsContext from '../../context/alerts/alertsContext'
+import AuthContext from '../../context/auth/authContext'
 
 
 const Requisition = ({requisition}) =>{
@@ -15,6 +16,9 @@ const Requisition = ({requisition}) =>{
     const alertsContext = useContext(AlertsContext)
     const { alert, showAlert } = alertsContext
 
+    const authContext = useContext(AuthContext)
+    const { user } = authContext
+
     useEffect(() =>{
         if(message){
             const {msg,category} = message
@@ -24,6 +28,10 @@ const Requisition = ({requisition}) =>{
     },[message])
 
     const handleDeleteClick = id =>{
+        if(user.level < 2){
+            showAlert('No tienes autorizacion para realizar esta acción', 'alerta-error')
+            return
+        }
         confirmAlert({
             title:'Eliminar Requisición',
             message:'Esta seguro que desea eliminarla?',
@@ -40,7 +48,7 @@ const Requisition = ({requisition}) =>{
     }
 
     const handleStateClick = (req) =>{
-        if(req.state !== 'pending'){
+        if(req.state !== 'pendiente'){
             showAlert('La requisición ya ha sido actualizada','alerta-error')
             return
         } 
@@ -73,7 +81,63 @@ const Requisition = ({requisition}) =>{
         })
     }
 
+    const handleShowClick = articles =>{
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='Modal__review sombra'>
+                        <h1>Articulos</h1>
+                        <p>Articulos dentro de la requisición</p>
+
+                        <div className="row mb-5">
+                            <table>
+                                <thead className="table100-head">
+                                    <tr>
+                                        <th>Descripcion</th>
+                                        <th>Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {articles.map( article =>(
+                                        <tr key={article.article._id}>
+                                            <td className="column1rev">{article.article.description}</td>
+                                            <td className="column2rev">{article.quantity}</td>
+                                        </tr>
+                                    ))}
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="row">
+                                <button onClick={onClose} className="button button-primary">Cerrar</button>
+                        </div>
+                        
+                        
+                    </div>
+                );
+            }
+        })
+        
+    }
+
+    const handleCheckBoxReview = (e,id) =>{
+        console.log(requisition)
+        requisition.articles = requisition.articles.map( article =>{
+            if(article._id === id){
+                article.inStock = e.target.checked
+            }
+
+            return article
+        })
+    }
+
     const handleReviewClick = req => {
+
+        if (user.level < 2 ){
+            showAlert('No tienes autorizacion para realizar esta acción', 'alerta-error')
+            return
+        } 
         if(req.reviewed){
             showAlert('La requisición ya ha sido revisada', 'alerta-error')
             return
@@ -101,7 +165,7 @@ const Requisition = ({requisition}) =>{
                                             <td className="column1rev">{article.article.description}</td>
                                             <td className="column2rev">{article.quantity}</td>
                                             <td className="column3rev">
-                                                <input type="checkbox"/>
+                                                <input type="checkbox" onChange={e => handleCheckBoxReview(e,article._id)}/>
                                             </td>
                                         </tr>
                                     ))}
@@ -115,6 +179,7 @@ const Requisition = ({requisition}) =>{
                             </div>
                             <div className="one-half column">
                                 <button
+                                    className="button button-blue"
                                     onClick={() => {
                                         console.log('revisada')
                                     onClose();
@@ -182,25 +247,14 @@ const Requisition = ({requisition}) =>{
                         </div>
                     </div>
                     
-                    <h4>Comentarios: <span>{requisition.comments}</span></h4>
                 </div>
                 <div className="one-half column">
-                    <table>
-                        <thead className="table100-head">
-                            <tr>
-                                <th>Descripcion</th>
-                                <th>Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {requisition.articles.map( article =>(
-                                <tr key={article.article._id}>
-                                    <td className="column1req">{article.article.description}</td>
-                                    <td className="column2req">{article.quantity}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <div className="row">
+                        <h4>Comentarios: <span className="fw-400">{requisition.comments}</span></h4>
+                    </div>
+                    <div className="row">
+                        <button type="button" className="button button-primary" onClick={() => handleShowClick(requisition.articles)}>Ver Articulos</button>
+                    </div>
                 </div>
             </div>
         </li>

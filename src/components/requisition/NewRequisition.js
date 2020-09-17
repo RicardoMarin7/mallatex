@@ -32,7 +32,7 @@ const NewRequisition = () =>{
     const { getArticles, articles} = ordersContext
 
     const requisitionContext = useContext(RequisitionContext)
-    const { requisitionArticles,createRequisition, message } = requisitionContext
+    const { requisitionArticles,createRequisition, message, getRequisitions } = requisitionContext
 
     //State local
     const [requisition,setRequisition] = useState({
@@ -52,12 +52,15 @@ const NewRequisition = () =>{
         if(message){
             const {msg,category} = message
             showAlert(msg,category)
+            getRequisitions()
         }
 
         setRequisition({
             ...requisition,
             articles:requisitionArticles
         })
+
+        
     },[requisitionArticles,message])
 
     const handleSubmit = e =>{
