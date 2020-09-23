@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import RequisitionPDF from './Requisitionpdf'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -24,11 +24,13 @@ const Requisition = ({requisition}) =>{
             const {msg,category} = message
             showAlert(msg,category)
         }
-
     },[message])
 
+    const [ onReview, setOnReview ] = useState(false)
+    const [ reviewedArticles, setReviewedArticles ] = useState([])
+
     const handleDeleteClick = id =>{
-        if(user.level < 2){
+        if(user.level < 3){
             showAlert('No tienes autorizacion para realizar esta acción', 'alerta-error')
             return
         }
@@ -121,15 +123,34 @@ const Requisition = ({requisition}) =>{
         
     }
 
-    const handleCheckBoxReview = (e,id) =>{
-        console.log(requisition)
-        requisition.articles = requisition.articles.map( article =>{
-            if(article._id === id){
-                article.inStock = e.target.checked
-            }
+    const handleQuantityReview = (e,article) =>{
+        const alreadyAdded = reviewedArticles.filter( reviewed => reviewed._id === article._id)
+        console.log(alreadyAdded)
 
-            return article
-        })
+        if(alreadyAdded.length < 1){
+            setReviewedArticles([
+                    ...reviewedArticles,
+                    article
+                ]
+            )
+        }
+
+        else{
+            setReviewedArticles(
+                reviewedArticles.map( reviewed =>{
+                        if(reviewed._id === article._id){
+                            reviewed.quantity = e.target.value
+                        }
+
+                        return reviewed
+                    })       
+            )
+        }
+        
+    }
+
+    const handleReviewed = e =>{
+
     }
 
     const handleReviewClick = req => {
@@ -137,65 +158,18 @@ const Requisition = ({requisition}) =>{
         if (user.level < 2 ){
             showAlert('No tienes autorizacion para realizar esta acción', 'alerta-error')
             return
-        } 
+        }
+
         if(req.reviewed){
             showAlert('La requisición ya ha sido revisada', 'alerta-error')
             return
         }
 
-        confirmAlert({
-            customUI: ({ onClose }) => {
-                return (
-                    <div className='Modal__review'>
-                        <h1>Revisar Requisición</h1>
-                        <p>Marque con una casilla los articulos que existan en almacén</p>
+        setOnReview(true)
+    }
 
-                        <div className="row">
-                            <table>
-                                <thead className="table100-head">
-                                    <tr>
-                                        <th>Descripcion</th>
-                                        <th>Cantidad</th>
-                                        <th>En almacén</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {req.articles.map( article =>(
-                                        <tr key={article.article._id}>
-                                            <td className="column1rev">{article.article.description}</td>
-                                            <td className="column2rev">{article.quantity}</td>
-                                            <td className="column3rev">
-                                                <input type="checkbox" onChange={e => handleCheckBoxReview(e,article._id)}/>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div className="row">
-                            <div className="one-half column">
-                                <button onClick={onClose} className="button button-primary">Cancelar</button>
-                            </div>
-                            <div className="one-half column">
-                                <button
-                                    className="button button-blue"
-                                    onClick={() => {
-                                        console.log('revisada')
-                                    onClose();
-                                    }}
-                                    >
-                                    Marcar como Revisada
-                                </button>
-                            </div>
-                        </div>
-                        
-                        
-                    </div>
-                );
-            }
-        })
-
+    const handleCancelReviewed = e =>{
+        setOnReview(false)
     }
 
     const stateClass = requisition.state
@@ -209,7 +183,7 @@ const Requisition = ({requisition}) =>{
     const fecha = date.toLocaleDateString()
 
     return(
-        <li className="tarea sombra" key={requisition.folio}>
+        <li className="tarea sombra Requisition" key={requisition.folio}>
             {alert ? <div className={`alerta ${alert.category}`}>{alert.msg}</div> : null}
             
             <div className="row">
@@ -234,7 +208,6 @@ const Requisition = ({requisition}) =>{
                         <div className="one-half column">
                             <button className={`mb-5 u-full-width ${reviewedClass}`} onClick={() => handleReviewClick(requisition)}>{reviewed}</button>
                         </div>
-                        
                     </div>
 
                     <div className="row">
@@ -248,8 +221,10 @@ const Requisition = ({requisition}) =>{
                     </div>
                     
                 </div>
+
                 <div className="one-half column">
                     <div className="row">
+                        <h4>Fecha: <span className="fw-400">{fecha}</span></h4>
                         <h4>Comentarios: <span className="fw-400">{requisition.comments}</span></h4>
                     </div>
                     <div className="row">
@@ -257,6 +232,53 @@ const Requisition = ({requisition}) =>{
                     </div>
                 </div>
             </div>
+            
+            {onReview 
+                ?(
+                    <div className="row Review__active">
+                        <h2>Revisar Requisición</h2>
+                        <form>
+                            <table>
+                                <thead className="table100-head">
+                                    <tr>
+                                        <th>Descripcion</th>
+                                        <th>Cantidad</th>
+                                        <th>Pedir</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {requisition.articles.map( article =>(
+                                        <tr key={article.article._id}>
+                                            <td className="column1rev">{article.article.description}</td>
+                                            <td className="column2rev">{article.quantity}</td>
+                                            <td className="column3rev">
+                                                <input 
+                                                    type="number" 
+                                                    required 
+                                                    onChange={e => handleQuantityReview(e,article)}
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            <button type="button" onClick={handleCancelReviewed} className="button button-primary">Cancelar</button>
+
+                            <button
+                                type="submit"
+                                className="button button-blue"
+                                onClick={ () => handleReviewed() }
+                                >
+                                Marcar como Revisada
+                            </button>
+
+                        </form>
+                    </div>
+                ) 
+                : null}
+
         </li>
     )
 }

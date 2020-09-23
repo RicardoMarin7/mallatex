@@ -35,8 +35,10 @@ select {
   html {
     box-sizing: border-box;
     height: 100%;
-    font-size: 62.5%; 
+    font-size: 62.5%;
+    scroll-behavior: smooth; 
   }
+  
   body {
     min-height: 100%;
     background-color: var(--gris1);
@@ -229,7 +231,7 @@ select {
     align-items: center;
     margin-bottom: 1rem;
     border-radius: .5rem;
-    max-height: 250px;
+    max-height: 270px;
     overflow-y: auto;
   
   }
@@ -417,6 +419,23 @@ select {
 .alerta-error {
   background-color: rgb(230, 78, 78);
   color: var(--blanco);
+}
+
+.alert-warning {
+  background-color: rgb(243, 201, 111);
+  color: var(--blanco);
+}
+
+.alert{
+  padding: 1rem 3rem;
+  border-radius: 1rem;
+  font-family: var(--headingFont);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 2.2rem;
+  text-align: center;
+  margin: 0 auto;
+  width: 90%;
 }
 
 
@@ -954,4 +973,20 @@ tbody tr:hover {
 .button-blue:hover{
   background-color: rgb(6, 110, 179);
   color: rgb(224, 224, 224);
+}
+
+.Requisition {
+  position: relative;
+  z-index: 1;
+  transition: transform 1s;
+}
+
+.Review__active {
+  position: absolute;
+  top: 0px;
+  background-color: white;
+  z-index: 2;
+  width: 90%;
+  text-align: center;
+
 }
