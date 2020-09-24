@@ -10,11 +10,11 @@ import Requisition from './Requisition'
 const Requisitions = () =>{
 
     const requisitionContext = useContext(RequisitionContext)
-    const { getAprovedRequisitions, requisitions } = requisitionContext
+    const { getRequisitions, requisitions } = requisitionContext
     const [ filteredRequisitions, setFilteredRequisitions ] = useState([])
 
     useEffect( () =>{
-        getAprovedRequisitions()
+        getRequisitions()
     },[requisitions])
     
 

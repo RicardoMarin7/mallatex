@@ -1,9 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import OrdersContext from '../../context/orders/ordersContext'
 
 
 const RequisitionInfo = ({requisition}) =>{
+
+    const ordersContext = useContext(OrdersContext)
+    const { selectRequisition } = ordersContext
 
     const stateClass = requisition.state
     const reviewedClass = requisition.reviewed
@@ -92,7 +96,15 @@ const RequisitionInfo = ({requisition}) =>{
                         <h4>Comentarios: <span className="fw-400">{requisition.comments}</span></h4>
                     </div>
                     <div className="row">
-                        <button type="button" className="button button-primary" onClick={() => handleShowClick(requisition.articles)}>Ver Articulos</button>
+                        <button 
+                            type="button" 
+                            className="button button-primary" 
+                            onClick={() => handleShowClick(requisition.reviewedArticles)}>Ver Articulos Revisados</button>
+
+                        <button 
+                            type="button" 
+                            className="button button-primary" 
+                            onClick={() => selectRequisition(requisition)}>Convertir a Orden</button>
                     </div>
                 </div>
             </div>

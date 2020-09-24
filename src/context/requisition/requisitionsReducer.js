@@ -7,7 +7,7 @@ import {
     CREATE_REQUISITION,
     UPDATE_REQUISITION_ARTICLE, 
     GET_REQUISITIONS,
-    DELETE_REQUISITION, UPDATE_REQUISITION
+    DELETE_REQUISITION, UPDATE_REQUISITION, GET_APROVED_REQUISITIONS
 
 } from '../../types'
 
@@ -81,6 +81,12 @@ export default (state,action) =>{
                 ...state,
                 requisitions:action.payload,
                 message: null
+            }
+
+        case GET_APROVED_REQUISITIONS:
+            return{
+                ...state,
+                aprovedRequisitions:action.payload
             }
 
         case DELETE_REQUISITION:

@@ -13,7 +13,8 @@ import {
     UPDATE_REQUISITION_ARTICLE,
     GET_REQUISITIONS,
     DELETE_REQUISITION,
-    UPDATE_REQUISITION
+    UPDATE_REQUISITION,
+    GET_APROVED_REQUISITIONS
 } from '../../types'
 
 
@@ -21,6 +22,7 @@ const RequisitionState = props => {
     
     const initialState = {
         requisitions:[],
+        aprovedRequisitions:[],
         requisitionSelectedArticles:[],
         requisitionArticles:[],
         message:'',
@@ -107,11 +109,25 @@ const RequisitionState = props => {
         }
     }
 
+    //Get Aproved requisitions
+    const getAprovedRequisitions = async () =>{
+        try {
+            const response = await AxiosClient.get('/api/requisitions/aproved')
+            const aproved = response.data.requisitions
+            console.log(aproved)
+            dispatch({
+                type: GET_APROVED_REQUISITIONS,
+                payload: aproved
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     //Delete Requisitions
     const deleteRequisition = async (id) =>{
         try {
             const response = await AxiosClient.delete(`/api/requisitions/${id}`)
-            console.log(response.data)
             dispatch({
                 type: DELETE_REQUISITION,
                 payload:id
@@ -146,6 +162,7 @@ const RequisitionState = props => {
             requisitionSelectedArticles:state.requisitionSelectedArticles,
             requisitionArticles:state.requisitionArticles,
             message:state.message,
+            aprovedRequisitions:state.aprovedRequisitions,
             selectRequisitionArticles,
             deleteRequisitionSelectedArticle,
             setReqArticles,
@@ -153,7 +170,8 @@ const RequisitionState = props => {
             deleteRequisition,
             updateRequisition,
             updateRequisitionArticle,
-            getRequisitions
+            getRequisitions,
+            getAprovedRequisitions
         }}>
             {props.children}
         </RequisitionsContext.Provider>

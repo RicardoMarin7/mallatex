@@ -23,7 +23,9 @@ const NewOrder = () =>{
     const { user } = authContext
 
     const ordersContext = useContext(OrdersContext)
-    const { getArticles, getProviders,selectedProvider } = ordersContext
+    const { getArticles, getProviders,selectedProvider, selectedRequisition, selectRequisition} = ordersContext
+
+    
 
     useEffect( () =>{
         getProviders()
@@ -49,9 +51,7 @@ const NewOrder = () =>{
         enviado_mediante:'',
         fob:'',
         empleado_envio:'',
-    }) 
-    
-    const [selectedRequisition, setSelectedRequisition ] = useState([])
+    })
 
     if(selectedRequisition.length === 0){
         return(
@@ -63,11 +63,30 @@ const NewOrder = () =>{
         )
     }
 
+    const {reviewedArticles} = selectedRequisition
+
+
     const handleChange = e =>{
         setOrder({
             ...order,
             [e.target.name]:e.target.value
         })
+    }
+
+    const handlePriceChange = (e,article) =>{
+        const newReviewed = reviewedArticles.map( art =>{
+            if(art._id === article._id){
+                art.price = e.target.value
+                art.import = e.target.value * art.quantity
+            }
+            return art
+        })
+
+        selectRequisition({
+                ...selectedRequisition,
+                reviewedArticles: newReviewed
+            }
+        )
     }
     
 
@@ -177,11 +196,41 @@ const NewOrder = () =>{
                 </div>{/* Termina datos de envio */}
 
                 <div className="row">
-                    <h2>Articulos Seleccionados</h2>
-                    <ArticleList />
+                    <h2>Articulos en Requisición</h2>
+                    <table>
+                        <thead className="table100-head">
+                            <tr>
+                                <th>Descripcion</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Importe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {reviewedArticles.map( article =>(
+                                <tr key={article.article._id}>
+                                    <td className="column1ord">{article.article.description}</td>
+                                    <td className="column2ord">{article.quantity}</td>
+                                    <td className="column3ord">
+                                        <input type="number" onChange={ e => handlePriceChange(e,article)} required/>
+                                    </td>
+                                    {article.price 
+                                    ?(<td 
+                                        className="column4ord">
+                                            ${new Intl.NumberFormat("en-US").format(article.import = article.quantity * article.price)}
+                                    </td>) 
+                                    :(<td className="column4ord">$0</td>) }
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
                 </div>
 
-                
+                <div className="formulas">
+                </div>
+
+                <button>Crear Orden</button>
 
             </form>
         </Layout>

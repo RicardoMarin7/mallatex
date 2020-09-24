@@ -6,6 +6,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import RequisitionContext from '../../context/requisition/requisitionContext'
 import AlertsContext from '../../context/alerts/alertsContext'
 import AuthContext from '../../context/auth/authContext'
+import RequisitionSearchBar from './RequisitionSearchBar'
 
 
 const Requisition = ({requisition}) =>{
@@ -202,7 +203,7 @@ const Requisition = ({requisition}) =>{
             folio:''
         }
         updateRequisition(newReq)
-        console.log()
+        requisition.reviewed = true
         setOnReview(false)
     }
 

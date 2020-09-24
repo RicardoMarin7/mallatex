@@ -9,7 +9,8 @@ import {
     GET_ARTICLES,
     SELECT_ARTICLE,
     DELETE_SELECTED_ARTICLE,
-    SELECT_PROVIDER
+    SELECT_PROVIDER,
+    SELECT_REQUISITION
 } from '../../types'
 
 export default (state,action) =>{
@@ -71,6 +72,12 @@ export default (state,action) =>{
             return{
                 ...state,
                 selectedProvider:action.payload
+            }
+
+        case SELECT_REQUISITION:
+            return{
+                ...state,
+                selectedRequisition:action.payload
             }
 
         default:

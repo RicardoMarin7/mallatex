@@ -15,7 +15,7 @@ import {
     GET_ARTICLES,
     SELECT_ARTICLE,
     DELETE_SELECTED_ARTICLE,
-    SELECT_PROVIDER
+    SELECT_PROVIDER, SELECT_REQUISITION
 } from '../../types'
 
 
@@ -27,6 +27,7 @@ const OrdersState = props => {
         articles:[],
         selectedArticles:[],
         selectedProvider:'',
+        selectedRequisition:[],
         message:''
     }
 
@@ -89,6 +90,14 @@ const OrdersState = props => {
         })
     }
 
+    //Selecciona una requisición a convertir
+    const selectRequisition = requisition =>{
+        dispatch({
+            type:SELECT_REQUISITION,
+            payload:requisition
+        })
+    }
+
     //Obtiene todos los proyectos
     const getProjects = () =>{
         dispatch({
@@ -129,6 +138,8 @@ const OrdersState = props => {
             articles:state.articles,
             selectedArticles:state.selectedArticles,
             selectedProvider:state.selectedProvider,
+            selectedRequisition:state.selectedRequisition,
+            selectRequisition,
             selectArticles,
             getArticles,
             getProviders,
