@@ -92,12 +92,12 @@ export default (state,action) =>{
         case UPDATE_REQUISITION:
             const newRequisitions = state.requisitions.map( requisition =>{
                 if(requisition._id === action.payload.requisition._id){
-                    requisition.state = action.payload.requisition.state
+                    requisition = action.payload.requisition
                 }
 
                 return requisition
             })
-
+            
             return{
                 ...state,
                 requisitions:newRequisitions,

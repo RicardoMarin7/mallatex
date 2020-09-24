@@ -1,14 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Logo from '../../img/logo_dark.png'
 import { Link } from 'react-router-dom'
+import AuthContext from '../../context/auth/authContext'
 
 const Sidebar = () =>{
 
-    const handleClick = e => {
-        console.log(e.target)
-        // console.log(e.target.classList.toggle('hidden'))
+    const authContext = useContext(AuthContext)
+    const { user } = authContext
 
+    let level = 1
+    if(user){
+        level = user.level
     }
+
+
     return(
         <aside>
             <img src={Logo} alt="Logo Mallatex" className="Logo__sidebar" />
@@ -19,11 +24,11 @@ const Sidebar = () =>{
                         <ul className="Sidebar__hidden">
 
                             <li>
-                                <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                <Link to="/orders/new" className="Sidebar__suboption">Crear Nueva Orden</Link>
                             </li>
 
                             <li>
-                                <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                <Link to="#!" className="Sidebar__suboption">Ordenes</Link>
                             </li>
 
                         </ul>
@@ -44,36 +49,48 @@ const Sidebar = () =>{
                         </ul>
                     </li>
 
-                    <li>
-                        <Link to="#!" className="Option">Articulos</Link>
-                        <ul className="Sidebar__hidden">
-
+                    { level > 2 
+                        ? (
                             <li>
-                                <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                <Link to="#!" className="Option">Articulos</Link>
+                                <ul className="Sidebar__hidden">
+        
+                                    <li>
+                                        <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                    </li>
+        
+                                    <li>
+                                        <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                    </li>
+        
+                                </ul>
                             </li>
+                        ) : null}
 
+
+
+                    { level > 2 
+                        ? (
                             <li>
-                                <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                <Link to="#!" className="Option">Proveedores</Link>
+                                <ul className="Sidebar__hidden">
+
+                                    <li>
+                                        <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                    </li>
+
+                                    <li>
+                                        <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                    </li>
+
+                                </ul>
                             </li>
+                        ) : null}
 
-                        </ul>
-                    </li>
+                    
 
-                    <li>
-                        <Link to="#!" className="Option">Proveedores</Link>
-                        <ul className="Sidebar__hidden">
-
-                            <li>
-                                <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
-                            </li>
-
-                            <li>
-                                <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
-                            </li>
-
-                        </ul>
-                    </li>
-
+                { level > 2 
+                ? (
                     <li>
                         <Link to="#!" className="Option">Usuarios</Link>
                         <ul className="Sidebar__hidden">
@@ -88,6 +105,7 @@ const Sidebar = () =>{
 
                         </ul>
                     </li>
+                ) : null}
 
                 </ul>
             </nav>

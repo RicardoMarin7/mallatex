@@ -6,6 +6,7 @@ import ArticleList from '../utility/ArticleList'
 
 import AuthContext from '../../context/auth/authContext'
 import OrdersContext from '../../context/orders/ordersContext'
+import SelectRequisition from './SelectRequisition'
 
 const NewOrder = () =>{
 
@@ -48,7 +49,19 @@ const NewOrder = () =>{
         enviado_mediante:'',
         fob:'',
         empleado_envio:'',
-    })    
+    }) 
+    
+    const [selectedRequisition, setSelectedRequisition ] = useState([])
+
+    if(selectedRequisition.length === 0){
+        return(
+            <Layout>
+                <SelectRequisition
+
+                />
+            </Layout>
+        )
+    }
 
     const handleChange = e =>{
         setOrder({
@@ -94,15 +107,7 @@ const NewOrder = () =>{
 
                 {/* Empieza proveedor */}
                 <div className="row">
-                    <div className="one-half column">
                         <SearchBar type="provider" key="1" />
-                        
-                    </div>
-
-                    <div className="one-half column">
-                        <SearchBar type="articles" key="2" />
-
-                    </div>
                 </div> {/* Termina proveedor */}
 
                 <div className="row data">

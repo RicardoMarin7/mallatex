@@ -125,7 +125,6 @@ const RequisitionState = props => {
     const updateRequisition = async requisition =>{
         try {
             const response = await AxiosClient.put(`/api/requisitions/${requisition._id}`,requisition)
-            console.log(response.data)
             dispatch({
                 type: UPDATE_REQUISITION,
                 payload:response.data

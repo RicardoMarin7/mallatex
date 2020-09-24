@@ -1,25 +1,25 @@
-import React, { useEffect, useContext, useState} from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+
 import RequisitionContext from '../../context/requisition/requisitionContext'
-import Layout from '../layout/Layout'
+import RequisitionSearchBar from '../requisition/RequisitionSearchBar'
+import RequisitionInfo from './RequisitionInfo'
 
-
-//Components
-import RequisitionSearchBar from './RequisitionSearchBar'
-import Requisition from './Requisition'
-
-const Requisitions = () =>{
+const SelectRequisition = () =>{
 
     const requisitionContext = useContext(RequisitionContext)
-    const { getAprovedRequisitions, requisitions } = requisitionContext
+    const { getRequisitions , requisitions } = requisitionContext
+
     const [ filteredRequisitions, setFilteredRequisitions ] = useState([])
 
     useEffect( () =>{
-        getAprovedRequisitions()
+        getRequisitions()
     },[requisitions])
+
+ 
     
 
     return(
-        <Layout>
+        <React.Fragment>
             <ul className="listado-tareas">
                 <RequisitionSearchBar 
                     requisitions={requisitions}
@@ -30,14 +30,14 @@ const Requisitions = () =>{
                 {filteredRequisitions.length === 0 
                 ?(
                     requisitions.map( requisition => (
-                        <Requisition 
+                        <RequisitionInfo 
                             requisition = {requisition}
                             key={requisition.folio}
                         />
                     ))
                 ):(
                     filteredRequisitions.map( requisition => (
-                        <Requisition 
+                        <RequisitionInfo 
                             requisition = {requisition}
                             key={requisition.folio}
                         />
@@ -46,8 +46,10 @@ const Requisitions = () =>{
 
                 
             </ul>
-        </Layout>
+            
+        </React.Fragment>
+
     )
 }
 
-export default Requisitions
+export default SelectRequisition

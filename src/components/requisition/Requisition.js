@@ -24,6 +24,7 @@ const Requisition = ({requisition}) =>{
             const {msg,category} = message
             showAlert(msg,category)
         }
+        
     },[message])
 
     const [ onReview, setOnReview ] = useState(false)
@@ -50,6 +51,11 @@ const Requisition = ({requisition}) =>{
     }
 
     const handleStateClick = (req) =>{
+        if(user.level < 3){
+            showAlert('No tienes autorizacion para realizar esta acción', 'alerta-error')
+            return
+        }
+
         if(req.state !== 'pendiente'){
             showAlert('La requisición ya ha sido actualizada','alerta-error')
             return
@@ -58,12 +64,14 @@ const Requisition = ({requisition}) =>{
         const reqAproved = {
             ...req,
             state:'aprobada',
+            stateby:user._id,
             folio:''
         }
 
         const reqRejected = {
             ...req,
             state:'rechazada',
+            stateby:user._id,
             folio:''
         }
         
@@ -125,12 +133,13 @@ const Requisition = ({requisition}) =>{
 
     const handleQuantityReview = (e,article) =>{
         const alreadyAdded = reviewedArticles.filter( reviewed => reviewed._id === article._id)
-        console.log(alreadyAdded)
 
         if(alreadyAdded.length < 1){
             setReviewedArticles([
                     ...reviewedArticles,
-                    article
+                    {...article,
+                        quantity : e.target.value
+                    }
                 ]
             )
         }
@@ -149,8 +158,52 @@ const Requisition = ({requisition}) =>{
         
     }
 
-    const handleReviewed = e =>{
+    const handleReviewed = (e, articles) =>{
+        e.preventDefault()
 
+        if(reviewedArticles.length === 0){
+            showAlert('Asegurese de introducir la cantidad requerida de cada articulo' , 'alerta-error')
+            return
+        }
+        
+        let onError = false
+
+        for (let i = 0; i < reviewedArticles.length; i++) {
+            const quantity = reviewedArticles[i].quantity
+            if(quantity < 0 || quantity === ''){
+                onError = true
+                break
+            }
+        }
+
+        if(onError){
+            showAlert('Los articulos no pueden tener una cantidad menor que cero o vacía','alerta-error')
+            return
+        }
+
+        for (let i = 0; i < reviewedArticles.length; i++) {
+            const [original] = articles.filter( article => article._id === reviewedArticles[i]._id)
+            if(reviewedArticles[i].quantity > original.quantity){
+                onError = true
+                break
+            }
+        }
+
+        if(onError){
+            showAlert('Los articulos no pueden tener una cantidad mayor a la requerida','alerta-error')
+            return
+        }
+
+        const newReq = {
+            ...requisition,
+            reviewedArticles,
+            reviewedby: user._id,
+            reviewed:true,
+            folio:''
+        }
+        updateRequisition(newReq)
+        console.log()
+        setOnReview(false)
     }
 
     const handleReviewClick = req => {
@@ -170,6 +223,7 @@ const Requisition = ({requisition}) =>{
 
     const handleCancelReviewed = e =>{
         setOnReview(false)
+        setReviewedArticles([])
     }
 
     const stateClass = requisition.state
@@ -269,7 +323,7 @@ const Requisition = ({requisition}) =>{
                             <button
                                 type="submit"
                                 className="button button-blue"
-                                onClick={ () => handleReviewed() }
+                                onClick={ e => handleReviewed(e, requisition.articles) }
                                 >
                                 Marcar como Revisada
                             </button>
