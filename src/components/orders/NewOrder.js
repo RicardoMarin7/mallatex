@@ -1,9 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react'
 
+//Components
 import Layout from '../layout/Layout'
 import SearchBar from '../utility/SearchBar'
-import ArticleList from '../utility/ArticleList'
 
+//Context
 import AuthContext from '../../context/auth/authContext'
 import OrdersContext from '../../context/orders/ordersContext'
 import SelectRequisition from './SelectRequisition'
@@ -51,6 +52,8 @@ const NewOrder = () =>{
         enviado_mediante:'',
         fob:'',
         empleado_envio:'',
+        subtotal:0,
+        total:0
     })
 
     if(selectedRequisition.length === 0){
@@ -62,6 +65,8 @@ const NewOrder = () =>{
             </Layout>
         )
     }
+
+    const {total} = order
 
     const {reviewedArticles} = selectedRequisition
 
@@ -80,6 +85,19 @@ const NewOrder = () =>{
                 art.import = e.target.value * art.quantity
             }
             return art
+        })
+
+        
+        let newTotal = 0
+        reviewedArticles.forEach( art => {
+            if(art.import) newTotal += art.import            
+        })
+
+        
+
+        setOrder({
+            ...order,
+            total: newTotal 
         })
 
         selectRequisition({
@@ -217,11 +235,19 @@ const NewOrder = () =>{
                                     {article.price 
                                     ?(<td 
                                         className="column4ord">
-                                            ${new Intl.NumberFormat("en-US").format(article.import = article.quantity * article.price)}
+                                            {`$${new Intl.NumberFormat("en-US").format(article.import = article.quantity * article.price)}`}
                                     </td>) 
                                     :(<td className="column4ord">$0</td>) }
                                 </tr>
                             ))}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    Total: {`$${new Intl.NumberFormat("en-US").format(total)}`}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
 

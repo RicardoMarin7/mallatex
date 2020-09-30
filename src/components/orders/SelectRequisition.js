@@ -15,6 +15,12 @@ const SelectRequisition = () =>{
         getAprovedRequisitions()
     },[])
 
+    if(aprovedRequisitions.length === 0){
+        return (
+            <h2 className="txt-center">No hay requisiciones</h2>
+        )
+    }
+
 
     return(
         <React.Fragment>

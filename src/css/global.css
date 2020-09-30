@@ -990,3 +990,17 @@ tbody tr:hover {
   text-align: center;
 
 }
+
+/* Column */
+.column1ord{
+  width: 50%;
+}
+.column2ord{
+  width: 10%;
+}
+.column3ord{
+  width: 20%;
+}
+.column4ord{
+  width: 20%;
+}

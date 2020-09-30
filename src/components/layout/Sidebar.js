@@ -23,12 +23,15 @@ const Sidebar = () =>{
                         <Link to="#!" className="Option">Ordenes</Link>
                         <ul className="Sidebar__hidden">
 
+                            {level > 2 
+                            ? (
+                                <li>
+                                    <Link to="/orders/new" className="Sidebar__suboption">Crear Nueva Orden</Link>
+                                </li>
+                            ) : null}
+    
                             <li>
-                                <Link to="/orders/new" className="Sidebar__suboption">Crear Nueva Orden</Link>
-                            </li>
-
-                            <li>
-                                <Link to="#!" className="Sidebar__suboption">Ordenes</Link>
+                                <Link to="#!" className="Sidebar__suboption">Mis Ordenes</Link>
                             </li>
 
                         </ul>
