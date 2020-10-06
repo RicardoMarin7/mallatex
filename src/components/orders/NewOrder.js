@@ -24,37 +24,40 @@ const NewOrder = () =>{
     const { user } = authContext
 
     const ordersContext = useContext(OrdersContext)
-    const { getArticles, getProviders,selectedProvider, selectedRequisition, selectRequisition} = ordersContext
-
-    
-
-    useEffect( () =>{
-        getProviders()
-        getArticles()
-        
-    },[])
+    const { getProviders, selectedProvider, selectedRequisition, selectRequisition, providers} = ordersContext
 
 
     const [order,setOrder] = useState({
-        fecha:today(),
-        fechadecompra:'',
-        moneda:'mxn',
-        proveedor:'',
-        departamento_proveedor:'',
-        direccion_proveedor:'',
-        email_proveedor:'',
-        telefono_proveedor:'',
-        empleado:'',
-        empresa_empleado:'Tejidos Tecnicos Mallatex S.A. De C.V.',
-        direccion_empleado:'',
-        email_empleado:'',
-        telefono_empleado:'',
-        enviado_mediante:'',
+        boughtdate:'',
+        currency:'mxn',
+        provider:'',
+        createdby:'',
+        sentvia:'',
         fob:'',
-        empleado_envio:'',
+        sendemployee:'',
         subtotal:0,
-        total:0
+        total:0,
+        iva:0,
+        shipping_cost:0,
+        other_spending:0
     })
+
+    const {total,subtotal,iva, currency, fob,sendemployee, sentvia, other_spending, shipping_cost} = order
+    
+
+    useEffect( () =>{
+        if(providers.length === 0){
+            getProviders()
+        }
+        
+        setOrder({
+            ...order,
+            total: subtotal + iva + other_spending + shipping_cost
+          })
+    },[other_spending, shipping_cost])
+
+
+ 
 
     if(selectedRequisition.length === 0){
         return(
@@ -66,7 +69,7 @@ const NewOrder = () =>{
         )
     }
 
-    const {total} = order
+    
 
     const {reviewedArticles} = selectedRequisition
 
@@ -87,17 +90,20 @@ const NewOrder = () =>{
             return art
         })
 
-        
-        let newTotal = 0
-        reviewedArticles.forEach( art => {
-            if(art.import) newTotal += art.import            
-        })
 
+        let newSubTotal = 0
+        reviewedArticles.forEach( art => {
+            if(art.import) newSubTotal += art.import
+        })
         
+        const newIva = newSubTotal * 0.16
+        const newTotal = newIva + newSubTotal
 
         setOrder({
             ...order,
-            total: newTotal 
+            subtotal: newSubTotal,
+            iva: newIva,
+            total: newTotal
         })
 
         selectRequisition({
@@ -105,6 +111,23 @@ const NewOrder = () =>{
                 reviewedArticles: newReviewed
             }
         )
+    }
+
+    const handleTotalModifierChange = e =>{
+        const {name,value} = e.target
+
+        if(value === ''){
+            setOrder({
+                ...order,
+                [name] : 0
+            })
+            return
+        }
+
+        setOrder({
+            ...order,
+            [name] : parseFloat(value)
+        })
     }
     
 
@@ -130,12 +153,12 @@ const NewOrder = () =>{
                         <input type="number" name="folio" value="1" readOnly/>
                     <br/>
 
-                        <label className="d-inline" htmlFor="fechadecompra">Fecha de Compra </label>
-                        <input type="date" name="fechadecompra" onChange={handleChange} required/>
+                        <label className="d-inline" htmlFor="boughtdate">Fecha de Compra </label>
+                        <input type="date" name="boughtdate" onChange={handleChange} required/>
                     <br/>
 
-                        <label className="d-inline" htmlFor="moneda">Moneda </label>
-                        <select name="moneda" required onChange={handleChange}>
+                        <label className="d-inline" htmlFor="currency">Moneda </label>
+                        <select name="currency" value={currency} required onChange={handleChange}>
                             <option value="mxn">MXN</option>
                             <option value="usd">USD</option>
                         </select>
@@ -200,16 +223,16 @@ const NewOrder = () =>{
                 {/* Empieza datos de envio */}
                 <div className="row">
                     <div className="one-third column">
-                        <label className="Orden__titulo u-full-width" htmlFor="enviado_mediante">Enviado mediante </label>
-                        <input type="text" name="enviado_mediante" className="u-full-width" onChange={handleChange}/>
+                        <label className="Orden__titulo u-full-width" htmlFor="sentvia">Enviado mediante </label>
+                        <input type="text" name="sentvia" className="u-full-width" value={sentvia} onChange={handleChange}/>
                     </div>
                     <div className="one-third column">
                         <label className="Orden__titulo u-full-width" htmlFor="fob">F.O.B</label>
-                        <input type="text" name="fob" className="u-full-width" onChange={handleChange}/>
+                        <input type="text" name="fob" className="u-full-width" value={fob} onChange={handleChange}/>
                     </div>
                     <div className="one-third column">
-                        <label className="Orden__titulo u-full-width" htmlFor="empleado_envio">Empleado </label>
-                        <input type="text" name="empleado_envio" className="u-full-width" onChange={handleChange}/>
+                        <label className="Orden__titulo u-full-width" htmlFor="sendemployee">Empleado </label>
+                        <input type="text" name="sendemployee" className="u-full-width" value={sendemployee} onChange={handleChange}/>
                     </div>
                 </div>{/* Termina datos de envio */}
 
@@ -243,9 +266,27 @@ const NewOrder = () =>{
                             <tr>
                                 <td></td>
                                 <td></td>
+                                <td className="txt-right"><span className="fw-700">Envío</span></td>
+                                <td>
+                                    <input type="number" onChange={handleTotalModifierChange} name="shipping_cost" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td className="txt-right"><span className="fw-700">Otro</span></td>
+                                <td>
+                                    <input type="number" onChange={handleTotalModifierChange} name="other_spending"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td>
-                                    Total: {`$${new Intl.NumberFormat("en-US").format(total)}`}
+                                    <span className="fw-700">SubTotal:</span> {`$${new Intl.NumberFormat("en-US").format(subtotal)}`} <br/>
+                                    <span className="fw-700">IVA:</span> {`$${new Intl.NumberFormat("en-US").format(iva)}`} <br/>
+                                    <span className="fw-700">Total:</span> {`$${new Intl.NumberFormat("en-US").format(total)}`} <br/>
                                 </td>
                             </tr>
                         </tbody>

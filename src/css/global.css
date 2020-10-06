@@ -926,10 +926,6 @@ tbody tr:hover {
   display: block;
 }
 
-.txt-center{
-  text-align: center;
-}
-
 .button-delete{
   background-color: var(--options);
   color: white;
@@ -939,9 +935,7 @@ tbody tr:hover {
   color: rgb(221, 221, 221);
 }
 
-.fw-400{
-  font-weight: 400;
-}
+
 
 .logo_login{
   max-width: 50%;
@@ -1003,4 +997,22 @@ tbody tr:hover {
 }
 .column4ord{
   width: 20%;
+}
+
+/* Utilities */
+
+.fw-400{
+  font-weight: 400;
+}
+
+.fw-700{
+  font-weight: 700;
+}
+
+.txt-center{
+  text-align: center;
+}
+
+.txt-right{
+  text-align: right !important;
 }
