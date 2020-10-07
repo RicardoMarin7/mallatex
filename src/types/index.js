@@ -1,7 +1,7 @@
 //Orders Types
 export const FORM_ORDER = 'FORM_ORDER'
 export const GET_ORDERS = 'GET_ORDERS'
-export const ADD_ORDER = 'ADD_ORDER'
+export const CREATE_ORDER = 'CREATE_ORDER'
 export const VALIDATE_FORM = 'VALIDATE_FORM'
 export const ACTUAL_ORDER = 'ACTUAL_ORDER'
 export const DELETE_ORDER = 'DELETE_ORDER'

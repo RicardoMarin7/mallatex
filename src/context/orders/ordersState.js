@@ -7,7 +7,8 @@ import AxiosClient from '../../config/Axios'
 import { 
     FORM_ORDER,
     GET_ORDERS,
-    ADD_ORDER,
+    CREATE_ORDER,
+    CREATE_ERROR,
     VALIDATE_FORM,
     ACTUAL_ORDER,
     DELETE_ORDER,
@@ -99,20 +100,46 @@ const OrdersState = props => {
     }
 
     //Obtiene todos los proyectos
-    const getProjects = () =>{
-        dispatch({
-            type:GET_ORDERS,
-            //payload: projects
-        })
-    }
-
-    //Add project to state
-    const addOrder = async (Order) =>{
+    const getOrders = async () =>{
         try {
-            const response = await AxiosClient.post('/api/orders/new', Order)
-            console.log(response)
+            const response = await AxiosClient.get('/api/orders/')
+            const orders = response.data.orders
+            dispatch({
+                type: GET_ORDERS,
+                payload: orders
+            })
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    //Create Order
+    const createOrder = async (data) =>{
+        try {
+            const response = await AxiosClient.post('/api/orders/new',data)
+            dispatch({
+                type:CREATE_ORDER,
+                payload:response.data
+            })
+        } catch (error) {
+            let alert
+            if(error.response){
+                alert = {
+                    msg:error.response.data.msg,
+                    category:'alerta-error'
+                }
+            }
+            else{
+                alert = {
+                    msg:error.message,
+                    category:'alerta-error'
+                }
+            }
+
+            dispatch({
+                type:CREATE_ERROR,
+                payload:alert
+            })
         }
     }
 
@@ -139,12 +166,15 @@ const OrdersState = props => {
             selectedArticles:state.selectedArticles,
             selectedProvider:state.selectedProvider,
             selectedRequisition:state.selectedRequisition,
+            orders:state.orders,
             selectRequisition,
             selectArticles,
             getArticles,
             getProviders,
             deleteSelectedArticle,
-            selectProvider
+            selectProvider,
+            createOrder,
+            getOrders
 
         }}>
             {props.children}

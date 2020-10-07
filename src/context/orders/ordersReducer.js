@@ -1,7 +1,7 @@
 import { 
     FORM_ORDER,
     GET_ORDERS,
-    ADD_ORDER,
+    CREATE_ORDER,
     VALIDATE_FORM,
     ACTUAL_ORDER,
     DELETE_ORDER,
@@ -20,15 +20,18 @@ export default (state,action) =>{
         case GET_ORDERS:
             return{
                 ...state,
-                projects: action.payload
+                orders: action.payload
             }
 
-        case ADD_ORDER:
+        case CREATE_ORDER:
             return{
                 ...state,
-                projects: [...state.projects, action.payload],
-                formNewProject : false,
-                errorForm: false
+                selectedProvider:[],
+                selectedRequisition:[],
+                message:{
+                    msg: 'Orden creada con éxito',
+                    category:'alerta-ok'
+                }
             }
             
         case ACTUAL_ORDER:

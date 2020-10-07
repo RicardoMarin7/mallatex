@@ -8,6 +8,8 @@ import SearchBar from '../utility/SearchBar'
 import AuthContext from '../../context/auth/authContext'
 import OrdersContext from '../../context/orders/ordersContext'
 import SelectRequisition from './SelectRequisition'
+import AlertsContext from '../../context/alerts/alertsContext'
+import RequisitionContext from '../../context/requisition/requisitionContext'
 
 const NewOrder = () =>{
 
@@ -24,25 +26,34 @@ const NewOrder = () =>{
     const { user } = authContext
 
     const ordersContext = useContext(OrdersContext)
-    const { getProviders, selectedProvider, selectedRequisition, selectRequisition, providers} = ordersContext
+    const { getProviders, selectedProvider, selectedRequisition, selectRequisition, providers, createOrder, message} = ordersContext
+
+    const alertsContext = useContext(AlertsContext)
+    const { alert, showAlert } = alertsContext
+
+    const requisitionContext = useContext(RequisitionContext)
+    const {updateRequisition} = requisitionContext
 
 
     const [order,setOrder] = useState({
-        boughtdate:'',
-        currency:'mxn',
         provider:'',
-        createdby:'',
+        requestedby:'',
         sentvia:'',
         fob:'',
-        sendemployee:'',
-        subtotal:0,
-        total:0,
+        shipping_conditions:'',
+        currency:'mxn',
+        boughtdate:'',
+        articles:[],
+        requisitionFolio:0,
         iva:0,
+        total:0,
+        subtotal:0,
         shipping_cost:0,
-        other_spending:0
+        other_spending:0,
+        comments:'',
     })
 
-    const {total,subtotal,iva, currency, fob,sendemployee, sentvia, other_spending, shipping_cost} = order
+    const {total,subtotal,iva, currency, fob, shipping_conditions, sentvia, other_spending, shipping_cost, comments} = order
     
 
     useEffect( () =>{
@@ -53,23 +64,24 @@ const NewOrder = () =>{
         setOrder({
             ...order,
             total: subtotal + iva + other_spending + shipping_cost
-          })
+        })
+
+        if(message){
+            const {msg,category} = message
+            showAlert(msg,category)
+        }
+
     },[other_spending, shipping_cost])
-
-
- 
 
     if(selectedRequisition.length === 0){
         return(
             <Layout>
+                {alert ? <div className={`alerta ${alert.category}`}>{alert.msg}</div> : null}
                 <SelectRequisition
-
                 />
             </Layout>
         )
     }
-
-    
 
     const {reviewedArticles} = selectedRequisition
 
@@ -103,7 +115,8 @@ const NewOrder = () =>{
             ...order,
             subtotal: newSubTotal,
             iva: newIva,
-            total: newTotal
+            total: newTotal,
+            articles:reviewedArticles
         })
 
         selectRequisition({
@@ -129,11 +142,48 @@ const NewOrder = () =>{
             [name] : parseFloat(value)
         })
     }
+
+    const handleSubmit = e =>{
+        e.preventDefault()
+        let onError = false
+
+        for (let i = 0; i < reviewedArticles.length; i++) {
+            const quantity = reviewedArticles[i].quantity
+            if(quantity < 0 || quantity === ''){
+                onError = true
+                break
+            }
+        }
+
+        if(onError){
+            showAlert('El precio no puede estar vacío o ser menor que cero','alerta-error')
+            return
+        }
+
+        if(selectedProvider.length === 0){
+            showAlert('Debes seleccionar un proveedor','alerta-error')
+            return
+        }
+
+        
+        createOrder({
+            ...order,
+            requisitionFolio: selectedRequisition.folio,
+            provider: selectedProvider._id,
+            requestedby: selectedRequisition.createdby._id
+        })
+
+        updateRequisition({
+            _id:selectedRequisition._id,
+            converted:true
+        })
+    }
     
 
     return(
         <Layout>
-            <form>
+            {alert ? <div className={`alerta ${alert.category}`}>{alert.msg}</div> : null}
+            <form onSubmit={handleSubmit}>
                 <div className="row">
                     {/* Empieza Encabezado */}
                     <div className="Orden__empresa one-half column">
@@ -231,8 +281,8 @@ const NewOrder = () =>{
                         <input type="text" name="fob" className="u-full-width" value={fob} onChange={handleChange}/>
                     </div>
                     <div className="one-third column">
-                        <label className="Orden__titulo u-full-width" htmlFor="sendemployee">Empleado </label>
-                        <input type="text" name="sendemployee" className="u-full-width" value={sendemployee} onChange={handleChange}/>
+                        <label className="Orden__titulo u-full-width" htmlFor="shipping_conditions">Condiciones de Envío</label>
+                        <input type="text" name="shipping_conditions" className="u-full-width" value={shipping_conditions} onChange={handleChange}/>
                     </div>
                 </div>{/* Termina datos de envio */}
 
@@ -253,7 +303,7 @@ const NewOrder = () =>{
                                     <td className="column1ord">{article.article.description}</td>
                                     <td className="column2ord">{article.quantity}</td>
                                     <td className="column3ord">
-                                        <input type="number" onChange={ e => handlePriceChange(e,article)} required/>
+                                        <input type="number" min="1" onChange={ e => handlePriceChange(e,article)} required/>
                                     </td>
                                     {article.price 
                                     ?(<td 
@@ -268,7 +318,7 @@ const NewOrder = () =>{
                                 <td></td>
                                 <td className="txt-right"><span className="fw-700">Envío</span></td>
                                 <td>
-                                    <input type="number" onChange={handleTotalModifierChange} name="shipping_cost" />
+                                    <input type="number" min="1" onChange={handleTotalModifierChange} name="shipping_cost" />
                                 </td>
                             </tr>
                             <tr>
@@ -276,7 +326,7 @@ const NewOrder = () =>{
                                 <td></td>
                                 <td className="txt-right"><span className="fw-700">Otro</span></td>
                                 <td>
-                                    <input type="number" onChange={handleTotalModifierChange} name="other_spending"/>
+                                    <input type="number" min="1" onChange={handleTotalModifierChange} name="other_spending"/>
                                 </td>
                             </tr>
                             <tr>
@@ -294,10 +344,12 @@ const NewOrder = () =>{
 
                 </div>
 
-                <div className="formulas">
+                <div className="row">
+                        <label className="Orden__titulo u-full-width" htmlFor="comments">Comentarios o instrucciones especiales</label>
+                        <textarea name="comments" className="u-full-width" value={comments} onChange={handleChange} placeholder="Escribe aqui las instrucciones especiales o tus comentarios" />
                 </div>
 
-                <button>Crear Orden</button>
+                <button className="btn btn-primario">Crear Orden</button>
 
             </form>
         </Layout>

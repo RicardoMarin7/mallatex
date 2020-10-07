@@ -73,7 +73,7 @@ const NewRequisition = () =>{
         for(let i = 0; i < requisitionArticles.length ; i++){
             const articleQuantity = requisitionArticles[i].quantity
             if(articleQuantity === '' || articleQuantity < 1){
-                showAlert('La cantidad en todos los articulos debe ser mayor que 0','alerta-error')
+                showAlert('La cantidad en todos los articulos debe ser mayor que cero','alerta-error')
                 return
             }
             

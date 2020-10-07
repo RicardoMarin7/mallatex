@@ -92,7 +92,6 @@ const RequisitionState = props => {
                 payload:alert
             })
         }
-        
     }
 
     //Get requisitions
