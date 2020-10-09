@@ -6,9 +6,6 @@ import './css/skeleton.css'
 import './css/normalize.css'
 import './css/global.css'
 
-
-
-
 ReactDOM.render(
   <React.StrictMode>
     <App />

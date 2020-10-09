@@ -233,7 +233,8 @@ select {
     border-radius: .5rem;
     max-height: 270px;
     overflow-y: auto;
-  
+    font-size: 15px;
+    color:rgb(53, 53, 53)
   }
   .sombra {
     -webkit-box-shadow: 0px 4px 10px -3px rgba(117,117,117,1);

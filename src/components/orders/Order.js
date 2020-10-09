@@ -10,7 +10,7 @@ const Order = ({order}) =>{
                 return (
                     <div className='Modal__review sombra'>
                         <h1>Articulos</h1>
-                        <p>Articulos dentro de la requisición</p>
+                        <p>Articulos dentro de la orden</p>
 
                         <div className="row mb-5">
                             <table>
@@ -53,13 +53,14 @@ const Order = ({order}) =>{
                 <div className="one-half column">
                     <div className="row">
                         <div className="one-half column">
-                            <h4>Folio: <span className="fw-400">{order.folio}</span></h4>
-                            <h4>Creada por: <span className="fw-400">{order.createdby.name}</span></h4>
+                            <h4>Folio <span className="fw-400">{order.folio}</span></h4>
+                            <h4>Creada por <span className="fw-400">{order.createdby.name}</span></h4>
+                            <h4>Proveedor <span className="fw-400">{order.provider.name}</span></h4>
                         </div>
 
                         <div className="one-half column">
-                            <h4>Enviar a: <span className="fw-400">{order.sendTo}</span></h4>
-                            <h4>Cliente: <span className="fw-400">{order.client}</span></h4>
+                            <h4>Requerida por <span className="fw-400">{order.requestedby.name}</span></h4>
+                            <h4>Folio de requisicion <span className="fw-400">{order.requisitionFolio}</span></h4>
                         </div>
                     </div>
 

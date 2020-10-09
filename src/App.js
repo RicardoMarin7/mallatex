@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 //Higher Component
 import PrivateRoute from './components/routes/PrivateRoute'

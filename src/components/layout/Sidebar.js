@@ -31,7 +31,7 @@ const Sidebar = () =>{
                             ) : null}
     
                             <li>
-                                <Link to="#!" className="Sidebar__suboption">Mis Ordenes</Link>
+                                <Link to="/orders/" className="Sidebar__suboption">Mis Ordenes</Link>
                             </li>
 
                         </ul>
