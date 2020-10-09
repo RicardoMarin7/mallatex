@@ -280,7 +280,8 @@ const Requisition = ({requisition}) =>{
                 <div className="one-half column">
                     <div className="row">
                         <h4>Fecha: <span className="fw-400">{fecha}</span></h4>
-                        <h4>Comentarios: <span className="fw-400">{requisition.comments}</span></h4>
+                        <label htmlFor="comments">Comentarios</label>
+                        <textarea name="comments" value={requisition.comments} readOnly/>
                     </div>
                     <div className="row">
                         <button type="button" className="button button-primary" onClick={() => handleShowClick(requisition.articles)}>Ver Articulos</button>

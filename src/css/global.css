@@ -17,6 +17,24 @@ select {
   box-shadow: none;
   box-sizing: border-box; }
 
+textarea{
+  width: 100%;
+}
+
+textarea::-webkit-scrollbar-track {
+  padding: 1px 0;
+  background-color: rgba(0,0,0,0.7);
+}
+
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
 :root {
     --blanco: #ffffff;
     --gris1: #edf2f6;
