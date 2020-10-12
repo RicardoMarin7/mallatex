@@ -11,6 +11,7 @@ import {
     SUCCESSFUL_REGISTER,
     FAILURE_REGISTER,
     GET_USER,
+    GET_USERS,
     LOGOUT
 } 
 from '../../types'
@@ -22,6 +23,7 @@ const AuthState = props =>{
         user: null,
         message: null,
         loading: false,
+        users:[]
     }
 
     const [state,dispatch] = useReducer(AuthReducer,initialState)
@@ -39,7 +41,7 @@ const AuthState = props =>{
             })
 
             //Obtener usuario
-            userAuthenticated()
+            //userAuthenticated()
         } catch (error) {
             let alert
             if(error.response){
@@ -98,6 +100,19 @@ const AuthState = props =>{
         }
     }
 
+    const getUsers = async () =>{
+        try {
+            const response = await AxiosClient.get('/api/users/')
+            const users = response.data.users
+            dispatch({
+                type: GET_USERS,
+                payload: users
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const Login = async (data) => {
         try {
             const response = await AxiosClient.post('/api/auth/login',data)
@@ -144,10 +159,12 @@ const AuthState = props =>{
                 user:state.user,
                 message:state.message,
                 loading:state.loading,
+                users:state.users,
                 registerUser,
                 Login,
                 userAuthenticated,
-                LogOut
+                LogOut,
+                getUsers,
             }}
         >
             {props.children}

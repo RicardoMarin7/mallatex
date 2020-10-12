@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import AlertsContext from '../../context/alerts/alertsContext'
 import AuthContext from '../../context/auth/authContext'
+import Layout from '../layout/Layout'
 
 const NewAccount = (props) => {
 
@@ -21,7 +22,8 @@ const NewAccount = (props) => {
                     name:'',
                     email:'',
                     password:'',
-                    confirm:''
+                    confirm:'',
+                    level:1,
                 })
             }
             showAlert(msg,category)
@@ -33,7 +35,8 @@ const NewAccount = (props) => {
         name:'',
         email:'',
         password:'',
-        confirm:''
+        confirm:'',
+        level:1
     })
 
     const [showPassword,setShowPassword] = useState(false)
@@ -55,7 +58,7 @@ const NewAccount = (props) => {
         }
     }
 
-    const { name, email, password, confirm } = newUser
+    const { name, email, password, confirm, level } = newUser
 
     const handleSubmit = e =>{
         e.preventDefault()
@@ -81,16 +84,17 @@ const NewAccount = (props) => {
         registerUser({
             name,
             email,
-            password
+            password,
+            level
         })
 
     }
 
     return(
-        <div className="form-usuario">
+        <Layout>
             {alert ? <div className={`alerta ${alert.category}`}>{alert.msg}</div>: null}
-            <div className="contenedor-form sombra-dark">
-                <h1>Obten una nueva cuenta</h1>
+            <div className="contenedor-form sombra-dark mrg-auto">
+                <h1>Crear un nuevo usuario</h1>
                 <form onSubmit={handleSubmit}>
 
                     <div className="campo-form">
@@ -144,13 +148,22 @@ const NewAccount = (props) => {
                     </div>
 
                     <div className="campo-form">
+                        <label htmlFor="level">Nivel</label>
+                        <select name="level" onChange={handleChange} value={level}>
+                            <option value="1">1 - Usuario Normal</option>
+                            <option value="2">2 - Almacen</option>
+                            <option value="3">3 - Administrador</option>
+                        </select>
+                    </div>
+
+                    <div className="campo-form">
                         <button className="btn-primario btn btn-block">Registrarme</button>
                     </div>
 
-                    <Link to="/" className="enlace-cuenta">Ya tienes cuenta? Inicia sesion</Link>
+                    {/* <Link to="/" className="enlace-cuenta">Ya tienes cuenta? Inicia sesion</Link> */}
                 </form>
             </div>
-        </div>
+        </Layout>
     )
 }
 

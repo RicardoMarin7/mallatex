@@ -59,11 +59,11 @@ const Sidebar = () =>{
                                 <ul className="Sidebar__hidden">
         
                                     <li>
-                                        <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                        <Link to="#!" className="Sidebar__suboption">Nuevo Articulo</Link>
                                     </li>
         
                                     <li>
-                                        <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                        <Link to="#!" className="Sidebar__suboption">Articulos</Link>
                                     </li>
         
                                 </ul>
@@ -79,11 +79,11 @@ const Sidebar = () =>{
                                 <ul className="Sidebar__hidden">
 
                                     <li>
-                                        <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                        <Link to="#!" className="Sidebar__suboption">Crear Nuevo Proveedor</Link>
                                     </li>
 
                                     <li>
-                                        <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                        <Link to="#!" className="Sidebar__suboption">Proveedores</Link>
                                     </li>
 
                                 </ul>
@@ -95,16 +95,16 @@ const Sidebar = () =>{
                 { level > 2 
                 ? (
                     <li>
-                        <Link to="#!" className="Option">Usuarios</Link>
+                        <Link to="/users" className="Option">Usuarios</Link>
                         <ul className="Sidebar__hidden">
 
                             <li>
-                                <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
+                                <Link to="/users/new" className="Sidebar__suboption">Nuevo Usuario</Link>
                             </li>
 
-                            <li>
-                                <Link to="/orders/new" className="Sidebar__suboption">Orders</Link>
-                            </li>
+                            {/* <li>
+                                <Link to="/users" className="Sidebar__suboption">Usuarios</Link>
+                            </li> */}
 
                         </ul>
                     </li>

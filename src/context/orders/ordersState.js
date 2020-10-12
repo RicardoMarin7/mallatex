@@ -5,12 +5,9 @@ import OrdersReducer from './ordersReducer'
 import AxiosClient from '../../config/Axios'
 
 import { 
-    FORM_ORDER,
     GET_ORDERS,
     CREATE_ORDER,
     CREATE_ERROR,
-    VALIDATE_FORM,
-    ACTUAL_ORDER,
     DELETE_ORDER,
     GET_PROVIDERS,
     GET_ARTICLES,
@@ -143,20 +140,18 @@ const OrdersState = props => {
         }
     }
 
-    //Selecciona el proyecto que el usuario le dio click
-    const actualProject = projectID =>{
-        dispatch({
-            type:ACTUAL_ORDER,
-            payload: projectID
-        })
-    }
-
     //Delete project
-    const deleteProject = projectID =>{
-        dispatch({
-            type:DELETE_ORDER,
-            payload: projectID
-        })
+    const deleteOrder = async id =>{
+        try {
+            const response = await AxiosClient.delete(`/api/orders/${id}`)
+            console.log(response)
+            dispatch({
+                type: DELETE_ORDER,
+                payload:id
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return(
@@ -174,7 +169,8 @@ const OrdersState = props => {
             deleteSelectedArticle,
             selectProvider,
             createOrder,
-            getOrders
+            getOrders,
+            deleteOrder
 
         }}>
             {props.children}

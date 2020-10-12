@@ -4,7 +4,8 @@ import {
     SUCCESSFUL_REGISTER,
     FAILURE_REGISTER,
     GET_USER,
-    LOGOUT
+    LOGOUT,
+    GET_USERS
 } 
 from '../../types'
 export default (state,action) =>{
@@ -71,6 +72,12 @@ export default (state,action) =>{
                 },
                 auth:true,
                 loading:true
+            }
+        
+        case GET_USERS:
+            return{
+                ...state,
+                users:action.payload
             }
 
         default:

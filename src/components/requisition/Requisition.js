@@ -6,7 +6,6 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import RequisitionContext from '../../context/requisition/requisitionContext'
 import AlertsContext from '../../context/alerts/alertsContext'
 import AuthContext from '../../context/auth/authContext'
-import RequisitionSearchBar from './RequisitionSearchBar'
 
 
 const Requisition = ({requisition}) =>{
@@ -36,18 +35,35 @@ const Requisition = ({requisition}) =>{
             showAlert('No tienes autorizacion para realizar esta acción', 'alerta-error')
             return
         }
+
         confirmAlert({
-            title:'Eliminar Requisición',
-            message:'Esta seguro que desea eliminarla?',
-            buttons:[
-                {
-                    label:'Eliminar',
-                    onClick:() => deleteRequisition(id)
-                },
-                {
-                    label:'Cancelar'
-                }
-            ]
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='Modal__question sombra'>
+                        <h1 className="mrg-top-1rem">Eliminar requisición</h1>
+                        <p>{`¿Desea eliminar la requisicion con folio: ${requisition.folio}?`}</p>
+
+                        <div className="row">
+                                <button 
+                                    onClick={onClose} 
+                                    className="button button-primary">
+                                        Cancelar
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    className="button button-delete"
+                                    onClick={ () => {
+                                        deleteRequisition(id)
+                                        onClose()
+                                    }}
+                                    >
+                                    Eliminar
+                                </button>
+                        </div>
+                    </div>
+                );
+            }
         })
     }
 

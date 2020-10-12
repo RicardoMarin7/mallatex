@@ -1,9 +1,23 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import OrderPDF from './OrderPDF'
 
+//Context
+import AlertsContext from '../../context/alerts/alertsContext'
+import AuthContext from '../../context/auth/authContext'
+import OrdersContext from '../../context/orders/ordersContext'
+
 const Order = ({order}) =>{
+
+    const alertsContext = useContext(AlertsContext)
+    const { alert, showAlert } = alertsContext
+
+    const authContext = useContext(AuthContext)
+    const { user } = authContext
+
+    const ordersContext = useContext(OrdersContext)
+    const { deleteOrder } = ordersContext
 
     let boughtDate = new Date(order.boughtdate)
     const FechaDeCompra = boughtDate.toLocaleDateString()
@@ -64,6 +78,43 @@ const Order = ({order}) =>{
         })
     }
 
+    const handleDeleteClick = id =>{
+        if(user.level < 3){
+            showAlert('No tienes autorizacion para realizar esta acción', 'alerta-error')
+            return
+        }
+        
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='Modal__question sombra'>
+                        <h1 className="mrg-top-1rem">Eliminar Orden</h1>
+                        <p>{`¿Desea eliminar la orden con folio: ${order.folio}?`}</p>
+
+                        <div className="row">
+                                <button 
+                                    onClick={onClose} 
+                                    className="button button-primary">
+                                        Cancelar
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    className="button button-delete"
+                                    onClick={()=>{
+                                        deleteOrder(id)
+                                        onClose()
+                                    }}
+                                    >
+                                    Eliminar
+                                </button>
+                        </div>
+                    </div>
+                );
+            }
+        })
+        
+    }
 
     return(
         <li className="tarea sombra Requisition" key={order.folio}>
@@ -92,7 +143,7 @@ const Order = ({order}) =>{
                         </div>
 
                         <div className="one-half column">
-                            <button type="button" className="button button-delete" onClick={() => alert('delete')}>Eliminar</button>
+                            <button type="button" className="button button-delete" onClick={() => handleDeleteClick(order._id)}>Eliminar</button>
                         </div>
                     </div>
                     

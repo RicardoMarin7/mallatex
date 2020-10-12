@@ -5,9 +5,10 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import PrivateRoute from './components/routes/PrivateRoute'
 
 //Components
-  //Auth
+  //Auth-Users
 import Login from './components/auth/Login'
 import NewAccount from './components/auth/NewAccount'
+import Users from './components/auth/Users'
 
   //Orders
 import Orders from './components/orders/Orders'
@@ -44,11 +45,12 @@ function App() {
               <BrowserRouter> 
                   <Switch>
                     <Route exact path="/" component={Login}/>
-                    <PrivateRoute exact path="/orders" component={Orders}/>
+                    <PrivateRoute exact path="/orders" component={Orders} />
                     <PrivateRoute exact path="/orders/new" component={NewOrder}/>
                     <PrivateRoute exact path="/requisitions/new" component={NewRequisition}/>
-                    <PrivateRoute exact path="/new-account" component={NewAccount}/>
                     <PrivateRoute exact path="/requisitions" component={Requisitions}/>
+                    <PrivateRoute exact path="/users/new" component={NewAccount}/>
+                    <PrivateRoute exact path="/users" component={Users}/>
                   </Switch>
               </BrowserRouter>
           </AuthState>

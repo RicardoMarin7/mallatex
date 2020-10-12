@@ -1,9 +1,6 @@
 import { 
-    FORM_ORDER,
     GET_ORDERS,
     CREATE_ORDER,
-    VALIDATE_FORM,
-    ACTUAL_ORDER,
     DELETE_ORDER,
     GET_PROVIDERS,
     GET_ARTICLES,
@@ -34,17 +31,10 @@ export default (state,action) =>{
                 }
             }
             
-        case ACTUAL_ORDER:
-            return{
-                ...state,
-                project: state.projects.filter( project => project.id === action.payload)
-            }   
-        
         case DELETE_ORDER:
             return{
                 ...state,
-                projects: state.projects.filter( project => project.id !== action.payload),
-                project: null
+                order: state.orders.filter( order => order._id !== action.payload),
             }
 
         case GET_PROVIDERS:
