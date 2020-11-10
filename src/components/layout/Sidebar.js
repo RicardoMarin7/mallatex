@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Logo from '../../img/logo_dark.png'
 import { Link } from 'react-router-dom'
 import AuthContext from '../../context/auth/authContext'
@@ -13,6 +13,16 @@ const Sidebar = () =>{
         level = user.level
     }
 
+    const [subMenu, setSubMenu] = useState({
+        orders: false,
+        requisitions: false,
+        articles: false,
+        providers: false,
+        users: false,
+    })
+
+    const { orders, requisitions, articles, providers, users } = subMenu
+
 
     return(
         <aside>
@@ -20,8 +30,15 @@ const Sidebar = () =>{
             <nav className="Sidebar__menu">
                 <ul className="Sidebar__PrincipalOptions">
                     <li>
-                        <Link to="#!" className="Option">Ordenes</Link>
-                        <ul className="Sidebar__hidden">
+                        <button 
+                            type="button" 
+                            className="Option" 
+                            onClick={ ()=> setSubMenu({
+                                ...subMenu,
+                                orders:!orders
+                            })}
+                        >Ordenes</button>
+                        <ul className={`${ orders ? "Sidebar_show" : "Sidebar__hidden"}`}>
 
                             {level > 2 
                             ? (
@@ -38,8 +55,15 @@ const Sidebar = () =>{
                     </li>
 
                     <li>
-                        <Link to="#!" className="Option">Requisiciones</Link>
-                        <ul className="Sidebar__hidden">
+                        <button 
+                            type="button"  
+                            className="Option"
+                                onClick={ ()=> setSubMenu({
+                                    ...subMenu,
+                                    requisitions:!requisitions
+                                })}
+                        >Requisiciones</button>
+                        <ul className={`${ requisitions ? "Sidebar_show" : "Sidebar__hidden"}`}>
 
                             <li>
                                 <Link to="/requisitions/new" className="Sidebar__suboption">Nueva Requisicion</Link>
@@ -55,15 +79,22 @@ const Sidebar = () =>{
                     { level > 2 
                         ? (
                             <li>
-                                <Link to="#!" className="Option">Articulos</Link>
-                                <ul className="Sidebar__hidden">
+                                <button 
+                                    type="button" 
+                                    className="Option"
+                                        onClick={ ()=> setSubMenu({
+                                            ...subMenu,
+                                            articles:!articles
+                                        })}
+                                >Articulos</button>
+                                <ul className={`${ articles ? "Sidebar_show" : "Sidebar__hidden"}`}>
         
                                     <li>
-                                        <Link to="#!" className="Sidebar__suboption">Nuevo Articulo</Link>
+                                        <Link to="/articles/new" className="Sidebar__suboption">Nuevo Articulo</Link>
                                     </li>
         
                                     <li>
-                                        <Link to="#!" className="Sidebar__suboption">Articulos</Link>
+                                        <Link to="/articles" className="Sidebar__suboption">Articulos</Link>
                                     </li>
         
                                 </ul>
@@ -75,15 +106,22 @@ const Sidebar = () =>{
                     { level > 2 
                         ? (
                             <li>
-                                <Link to="#!" className="Option">Proveedores</Link>
-                                <ul className="Sidebar__hidden">
+                                <button 
+                                    type="button" 
+                                    className="Option"
+                                        onClick={ ()=> setSubMenu({
+                                            ...subMenu,
+                                            providers:!providers
+                                        })}
+                                >Proveedores</button>
+                                <ul className={`${ providers ? "Sidebar_show" : "Sidebar__hidden"}`}>
 
                                     <li>
-                                        <Link to="#!" className="Sidebar__suboption">Crear Nuevo Proveedor</Link>
+                                        <Link to="/providers/new" className="Sidebar__suboption">Crear Nuevo Proveedor</Link>
                                     </li>
 
                                     <li>
-                                        <Link to="#!" className="Sidebar__suboption">Proveedores</Link>
+                                        <Link to="/providers" className="Sidebar__suboption">Ver Proveedores</Link>
                                     </li>
 
                                 </ul>
@@ -95,16 +133,22 @@ const Sidebar = () =>{
                 { level > 2 
                 ? (
                     <li>
-                        <Link to="/users" className="Option">Usuarios</Link>
-                        <ul className="Sidebar__hidden">
-
+                        <button type="button
+                            " to="/users" 
+                            className="Option"
+                                onClick={ ()=> setSubMenu({
+                                    ...subMenu,
+                                    users:!users
+                                })}
+                        >Usuarios</button>
+                        <ul className={`${ users ? "Sidebar_show" : "Sidebar__hidden"}`}>
                             <li>
                                 <Link to="/users/new" className="Sidebar__suboption">Nuevo Usuario</Link>
                             </li>
 
-                            {/* <li>
-                                <Link to="/users" className="Sidebar__suboption">Usuarios</Link>
-                            </li> */}
+                            <li>
+                                <Link to="/users" className="Sidebar__suboption">Ver Usuarios</Link>
+                            </li>
 
                         </ul>
                     </li>

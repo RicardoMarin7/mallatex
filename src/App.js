@@ -24,6 +24,14 @@ import AuthState from './context/auth/authState';
 import OrdersState from './context/orders/ordersState';
 import RequisitionState from './context/requisition/requisitionState';
 
+//Articles
+import Articles from './components/articles/Articles'
+import NewArticle from './components/articles/NewArticle'
+
+//Providers
+import Providers from './components/providers/Providers'
+import NewProvider from './components/providers/NewProvider'
+
 //Other
 import AuthToken from './config/authToken'
 
@@ -45,12 +53,25 @@ function App() {
               <BrowserRouter> 
                   <Switch>
                     <Route exact path="/" component={Login}/>
+                    {/* Orders */}
                     <PrivateRoute exact path="/orders" component={Orders} />
                     <PrivateRoute exact path="/orders/new" component={NewOrder}/>
+
+                    {/* Requisitions */}
                     <PrivateRoute exact path="/requisitions/new" component={NewRequisition}/>
                     <PrivateRoute exact path="/requisitions" component={Requisitions}/>
+
+                    {/* Usuarios */}
                     <PrivateRoute exact path="/users/new" component={NewAccount}/>
                     <PrivateRoute exact path="/users" component={Users}/>
+
+                    {/* Articulos */}
+                    <PrivateRoute exact path="/articles" component={Articles}/>
+                    <PrivateRoute exact path="/articles/new" component={NewArticle}/>
+
+                    {/* Proveedores */}
+                    <PrivateRoute exact path="/providers" component={Providers}/>
+                    <PrivateRoute exact path="/providers/new" component={NewProvider}/>
                   </Switch>
               </BrowserRouter>
           </AuthState>

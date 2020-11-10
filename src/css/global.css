@@ -249,7 +249,6 @@ textarea::-webkit-scrollbar-thumb {
     align-items: center;
     margin-bottom: 1rem;
     border-radius: .5rem;
-    max-height: 270px;
     overflow-y: auto;
     font-size: 15px;
     color:rgb(53, 53, 53)
@@ -423,6 +422,9 @@ textarea::-webkit-scrollbar-thumb {
   text-align: center;
   width: 100%;
   z-index: 100;
+  transform-origin:0 0;
+  transition: all .2s ease-in-out;
+  transform:scaleX(0);
 }
 @media (min-width:768px) {
   .alerta {
@@ -436,10 +438,16 @@ textarea::-webkit-scrollbar-thumb {
 .alerta-ok {
   background-color: rgb(109, 211, 109);
   color: rgb(2, 103, 2);
+  transform-origin:0 0;
+  transition: all .2s ease-in-out;
+  transform:scaleX(1);
 }
 .alerta-error {
   background-color: rgb(230, 78, 78);
   color: var(--blanco);
+  transform-origin:0 0;
+  transition: all .2s ease-in-out;
+  transform:scaleX(1);
 }
 
 .alert-warning {
@@ -915,13 +923,14 @@ tbody tr:hover {
   padding: 1rem;
   text-align: center;
   font-weight: 400;
-  
+  border: none;
 }
 
 .Option:hover{  
   transition-duration: .15s;
   transition-timing-function: ease-in-out;   
-  background-color: var(--options-hover) ; 
+  background-color: var(--options-hover) ;
+  color: rgb(219, 219, 219);
 }
 
 .Sidebar__suboption {
@@ -935,16 +944,23 @@ tbody tr:hover {
 .Sidebar__PrincipalOptions li{
   margin: 0;
 }
+
+.Sidebar__PrincipalOptions{
+  position: relative;
+}
+
 .Sidebar__hidden{
-  display: none;
+  position: absolute;
+  transform-origin:0 0;
+  transition: all .1s ease-in-out;
+  transform:scaleY(0);
+  width: 100%;
 }
 
-.Sidebar__hidden:hover{
-  display: block;
-}
-
-.Option:hover + .Sidebar__hidden{
-  display: block;
+.Sidebar_show{
+  transform-origin:0 0;
+  transition: all .2s ease-in-out;
+  transform:scaleY(1);
 }
 
 .button-delete{
@@ -1035,6 +1051,16 @@ tbody tr:hover {
   width: 20%;
 }
 
+/* Proveedores */
+.listado-proveedores{
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.update h3{
+  border-radius: 1px red solid;
+}
+
 /* Listado usuarios */
 .listado-usuarios{
   display: grid;
@@ -1052,6 +1078,11 @@ tbody tr:hover {
   padding:0;
 }
 
+.user h2{
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 1rem;
+}
+
 .User__update-active{
   position: absolute;
   top: 0px;
@@ -1060,6 +1091,21 @@ tbody tr:hover {
   width: 90%;
   text-align: center;
   height: auto;
+}
+
+/* Articles */
+.Article__show{
+  transform-origin:0 0;
+  transition: all .1s ease-in-out;
+  transform:scaleY(1);
+  height: auto;
+}
+
+.Article__hidden{
+  transform-origin:0 0;
+  transition: all .1s ease-in-out;
+  transform:scaleY(0);
+  height: 0px;
 }
 
 /* Utilities */
